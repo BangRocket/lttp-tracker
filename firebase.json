@@ -2,7 +2,27 @@
   "database": {
     "rules": "database.rules.json"
   },
-  "hosting": {
+  "hosting": [{
+      "site":"jorsh-2fc49",
+      "public": "public",
+      "rewrites": [
+        {
+          "source": "/simple/**",
+          "destination": "/tracker-simple.html"
+        },
+        {
+          "source": "/**",
+          "destination": "/tracker.html"
+        }
+      ],
+      "ignore": [
+        "firebase.json",
+        ".idea/*",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },{
+    "site": "jorsh-tracker",
     "public": "public",
     "rewrites": [
       {
@@ -20,5 +40,5 @@
       "**/.*",
       "**/node_modules/**"
     ]
-  }
+  }]
 }
