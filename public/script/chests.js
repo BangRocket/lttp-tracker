@@ -5127,14 +5127,16 @@ chests[54] = {
 };
 
 chests[55] = {
-    name: "Escape Sewer (4) <img src='/images/bomb.png' class='mini'>/<img src='/images/boots.png' class='mini'>",
+    name: "Escape Sewer (4) <img src='/images/glove1.png' class='mini'> + <img src='/images/bomb.png' class='mini'>/<img src='/images/boots.png' class='mini'>",
     x: "26.8%",
     y: "32.4%",
     isOpened: false,
     isAvailable: function () {
         const availability = new Availability();
-        availability.glitchless = 'available';
-        if (canEnterLightWorld('inverted', false, false)) {
+        if (canLiftRocks()) {
+            availability.glitchless = 'available';
+        }
+        else if (canEnterLightWorld('inverted', false, false)) {
             if (trackerData.items.moonpearl) {
                 availability.inverted = "available";
             }
