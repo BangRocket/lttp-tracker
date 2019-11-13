@@ -50,6 +50,9 @@
 </template>
 
 <script>
+import { Locations } from '../script/chests.js'
+import { store } from '../store/store.js'
+
 export default {
 	name: 'TrackerCell',
 	props: [
@@ -68,13 +71,13 @@ export default {
 			return this.itemName.substring(4)
 		},
 		dungeonLabel: function () {
-			// if (
-			//   this.bossNum &&
-			//   this.trackerOptions &&
-			//   this.trackerOptions.showlabels
-			// ) {
-			//   return dungeons[this.bossNum].label
-			// }
+			if (
+				this.bossNum &&
+				this.trackerOptions &&
+				this.trackerOptions.showlabels
+			) {
+				return Locations.data.dungeons[this.bossNum].label
+			}
 			return null
 		},
 		textCounter: function () {
@@ -84,23 +87,23 @@ export default {
 			return null
 		},
 		backgroundImage: function () {
-			// if (this.itemName === 'blank') {
-			//   return this.trackerOptions.editmode ? 'url(/images/blank.png)' : 'none'
-			// } else if (typeof this.itemValue === 'boolean') {
-			//   return 'url(/images/' + this.itemName + '.png)'
-			// } else if (this.textCounter !== null) {
-			//   return 'url(/images/' + this.itemName + '.png)'
-			// }
-			// return (
-			//   'url(/images/' +
-			//   this.itemName +
-			//   (this.trackerOptions.editmode
-			//     ? itemsMax[this.itemName]
-			//     : this.itemValue || '0') +
-			//   '.png)'
-			// )
+			if (this.itemName === 'blank') {
+				return this.trackerOptions.editmode ? 'url(/images/blank.png)' : 'none'
+			} else if (typeof this.itemValue === 'boolean') {
+				return 'url(/images/' + this.itemName + '.png)'
+			} else if (this.textCounter !== null) {
+				return 'url(/images/' + this.itemName + '.png)'
+			}
+			return (
+				'url(/images/' +
+				this.itemName +
+				(this.trackerOptions.editmode
+					? Locations.data.itemsMax[this.itemName]
+					: this.itemValue || '0') +
+				'.png)'
+			)
 			// temp fix
-			return 'url(/images/blank.png)'
+			// return 'url(/images/blank.png)'
 		},
 		isActive: function () {
 			return this.trackerOptions.editmode || this.itemValue
@@ -108,13 +111,13 @@ export default {
 		chestImage: function () {
 			if (
 				this.bossNum &&
-        this.trackerOptions &&
-        this.trackerOptions.showchests
+				this.trackerOptions &&
+				this.trackerOptions.showchests
 			) {
 				return (
 					'url(/images/chest' +
-          this.trackerData.dungeonchests[this.bossNum] +
-          '.png)'
+					this.trackerData.dungeonchests[this.bossNum] +
+					'.png)'
 				)
 			}
 			return null
@@ -122,9 +125,9 @@ export default {
 		bigKeyImage: function () {
 			if (
 				this.bossNum &&
-        this.trackerOptions &&
-        this.trackerOptions.showbigkeys &&
-        this.trackerData.bigkeys
+				this.trackerOptions &&
+				this.trackerOptions.showbigkeys &&
+				this.trackerData.bigkeys
 			) {
 				if (this.trackerData.bigkeys[this.bossNum]) {
 					return 'url(/images/bigkey.png)'
@@ -137,15 +140,15 @@ export default {
 		smallKeyImage: function () {
 			if (
 				this.bossNum &&
-        this.trackerOptions &&
-        this.trackerOptions.showsmallkeys &&
-        this.trackerData.smallkeys
+				this.trackerOptions &&
+				this.trackerOptions.showsmallkeys &&
+				this.trackerData.smallkeys
 			) {
 				if (this.trackerData.smallkeys[this.bossNum] > 0) {
 					return (
 						'url(/images/smallkey' +
-            this.trackerData.smallkeys[this.bossNum] +
-            '.png)'
+						this.trackerData.smallkeys[this.bossNum] +
+						'.png)'
 					)
 				} else {
 					return 'url(/images/nothing.png)'
@@ -156,14 +159,14 @@ export default {
 		prizeImage: function () {
 			if (
 				this.bossNum &&
-        this.bossNum !== '10' &&
-        this.trackerOptions &&
-        this.trackerOptions.showprizes
+				this.bossNum !== '10' &&
+				this.trackerOptions &&
+				this.trackerOptions.showprizes
 			) {
 				return (
 					'url(/images/dungeon' +
-          this.trackerData.prizes[this.bossNum] +
-          '.png)'
+					this.trackerData.prizes[this.bossNum] +
+					'.png)'
 				)
 			}
 			return null
@@ -171,13 +174,13 @@ export default {
 		medallionImage: function () {
 			if (
 				(this.bossNum === '8' || this.bossNum === '9') &&
-        this.trackerOptions &&
-        this.trackerOptions.showmedals
+				this.trackerOptions &&
+				this.trackerOptions.showmedals
 			) {
 				return (
 					'url(/images/medallion' +
-          this.trackerData.medallions[this.bossNum] +
-          '.png)'
+					this.trackerData.medallions[this.bossNum] +
+					'.png)'
 				)
 			}
 			return null
@@ -185,40 +188,35 @@ export default {
 	},
 	methods: {
 		clickCell: function (amt) {
-			// if (this.trackerOptions.editmode) {
-			//   Vue.set(
-			//     vm.itemRows[this.rowIndex],
-			//     this.columnIndex,
-			//     this.trackerOptions.selected.item || "blank"
-			//   );
-			//   return;
-			// }
-			// // Non-edit mode clicks
-			// if (this.bossNum) {
-			//   // Do both this and the below for bosses
-			//   rootRef
-			//     .child("dungeonbeaten")
-			//     .child(this.bossNum)
-			//     .set(!this.trackerData.dungeonbeaten[this.bossNum]);
-			// }
-			// if (typeof this.itemValue === "boolean") {
-			//   rootRef
-			//     .child("items")
-			//     .child(this.itemName)
-			//     .set(!this.itemValue);
-			// } else {
-			//   var newVal = (this.itemValue || 0) + amt;
-			//   if (newVal > itemsMax[this.itemName]) {
-			//     newVal = itemsMin[this.itemName];
-			//   }
-			//   if (newVal < itemsMin[this.itemName]) {
-			//     newVal = itemsMax[this.itemName];
-			//   }
-			//   rootRef
-			//     .child("items")
-			//     .child(this.itemName)
-			//     .set(newVal);
-			// }
+			if (this.trackerOptions.editmode) {
+				store.commit('updateRows', this.rowIndex, this.columnIndex, this.trackerOptions.selected.item || 'blank')
+			}
+			// Non-edit mode clicks
+			if (this.bossNum) {
+				// Do both this and the below for bosses
+				rootRef
+					.child("dungeonbeaten")
+					.child(this.bossNum)
+					.set(!this.trackerData.dungeonbeaten[this.bossNum]);
+			}
+			if (typeof this.itemValue === "boolean") {
+				rootRef
+					.child("items")
+					.child(this.itemName)
+					.set(!this.itemValue);
+			} else {
+				var newVal = (this.itemValue || 0) + amt;
+				if (newVal > itemsMax[this.itemName]) {
+					newVal = itemsMin[this.itemName];
+				}
+				if (newVal < itemsMin[this.itemName]) {
+					newVal = itemsMax[this.itemName];
+				}
+				rootRef
+					.child("items")
+					.child(this.itemName)
+					.set(newVal);
+			}
 		},
 		clickCellForward: function (e) {
 			this.clickCell(1)
@@ -227,10 +225,10 @@ export default {
 			this.clickCell(-1)
 		},
 		clickMedallion: function (amt) {
-			// rootRef
-			//   .child("medallions")
-			//   .child(this.bossNum)
-			//   .set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4);
+			rootRef
+				.child("medallions")
+				.child(this.bossNum)
+				.set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4);
 		},
 		clickMedallionForward: function (e) {
 			this.clickMedallion(1)
@@ -239,14 +237,14 @@ export default {
 			this.clickMedallion(-1)
 		},
 		clickChest: function (amt) {
-			// var chestitem = 'chest' + this.bossNum
-			// var modamt = itemsMax[chestitem] + 1
-			// var newVal =
-			//   (this.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt;
-			// rootRef
-			//   .child("dungeonchests")
-			//   .child(this.bossNum)
-			//   .set(newVal);
+			var chestitem = 'chest' + this.bossNum
+			var modamt = itemsMax[chestitem] + 1
+			var newVal =
+				(this.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt;
+			rootRef
+				.child("dungeonchests")
+				.child(this.bossNum)
+				.set(newVal);
 		},
 		clickChestForward: function (e) {
 			this.clickChest(1)
@@ -255,20 +253,20 @@ export default {
 			this.clickChest(-1)
 		},
 		clickBigKey: function (e) {
-			// rootRef
-			//   .child("bigkeys")
-			//   .child(this.bossNum)
-			//   .set(!this.trackerData.bigkeys[this.bossNum]);
+			rootRef
+				.child("bigkeys")
+				.child(this.bossNum)
+				.set(!this.trackerData.bigkeys[this.bossNum]);
 		},
 		clickSmallKey: function (amt) {
-			// var keyitem = 'key' + this.bossNum
-			// var modamt = itemsMax[keyitem] + 1
-			// var newVal =
-			//   (this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt;
-			// rootRef
-			//   .child("smallkeys")
-			//   .child(this.bossNum)
-			//   .set(newVal);
+			var keyitem = 'key' + this.bossNum
+			var modamt = itemsMax[keyitem] + 1
+			var newVal =
+				(this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt;
+			rootRef
+				.child("smallkeys")
+				.child(this.bossNum)
+				.set(newVal);
 		},
 		clickSmallKeyForward: function (e) {
 			this.clickSmallKey(1)
@@ -277,10 +275,10 @@ export default {
 			this.clickSmallKey(-1)
 		},
 		clickPrize: function (amt) {
-			// rootRef
-			//   .child("prizes")
-			//   .child(this.bossNum)
-			//   .set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5);
+			rootRef
+				.child("prizes")
+				.child(this.bossNum)
+				.set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5);
 		},
 		clickPrizeForward: function (e) {
 			this.clickPrize(1)

@@ -5,7 +5,7 @@
 			:style="{}"
 		>
 			<div
-				v-for="(itemRow, itemRowIndex) in itemRows"
+				v-for="(itemRow, itemRowIndex) in store.itemRows"
 				:key="itemRowIndex"
 			>
 				<div
@@ -19,18 +19,18 @@
 					:item-value="itemFor(item)"
 					:column-index="itemColumnIndex"
 					:row-index="itemRowIndex"
-					:tracker-data="trackerData"
-					:tracker-options="trackerOptions"
+					:tracker-data="store.trackerData"
+					:tracker-options="store.trackerOptions"
 				></tracker-cell>
 				<button
-					v-if="trackerOptions && trackerOptions.editmode"
+					v-if="store.trackerOptions && store.trackerOptions.editmode"
 					:style="{backgroundColor: 'red', color: 'white', verticalAlign: 'top', marginTop: '20px'}"
 					@click.prevent.stop="removeItem(itemRowIndex)"
 				>
 					-
 				</button>
 				<button
-					v-if="trackerOptions && trackerOptions.editmode"
+					v-if="store.trackerOptions && store.trackerOptions.editmode"
 					:style="{backgroundColor: 'green', color: 'white', verticalAlign: 'top', marginTop: '20px'}"
 					@click.prevent.stop="addItem(itemRowIndex)"
 				>
@@ -38,7 +38,7 @@
 				</button>
 			</div>
 			<button
-				v-if="trackerOptions && trackerOptions.editmode"
+				v-if="store.trackerOptions && store.trackerOptions.editmode"
 				@click.prevent.stop="addRow"
 			>
 				Add row
@@ -48,14 +48,15 @@
 </template>
 
 <script>
+import { store } from '../store/store.js'
+
 export default {
 	name: 'TrackerTable',
-	props: ['itemRows', 'trackerData', 'trackerOptions'],
 	computed: {
 		maxRowLength: function () {
-			return !this.itemRows.reduce
+			return !store.itemRows.reduce
 				? 0
-				: this.itemRows
+				: store.itemRows
 					.map(function (i) {
 						return i.length
 					})
@@ -66,20 +67,20 @@ export default {
 	},
 	methods: {
 		itemFor: function (itemName) {
-			if (!this.trackerData || !this.trackerData.items) return null
-			return this.trackerData.items[itemName]
+			if (store.state.trackerData || !store.state.trackerData.items) return null
+			return store.state.trackerData.items[itemName]
 		},
 		addRow: function (e) {
-			// vm.itemRows.push(["blank"]);
+			store.state.itemRows.push(['blank'])
 		},
 		addItem: function (rowIndex) {
-			// vm.itemRows[rowIndex].push("blank");
+			store.state.itemRows[rowIndex].push('blank')
 		},
 		removeItem: function (rowIndex) {
-			// vm.itemRows[rowIndex].pop();
-			// if (vm.itemRows[rowIndex].length === 0) {
-			// vm.itemRows.splice(rowIndex, 1);
-			// }
+			store.state.itemRows[rowIndex].pop()
+			if (store.state.itemRows[rowIndex].length === 0) {
+				store.state.temRows.splice(rowIndex, 1)
+			}
 		}
 	}
 }

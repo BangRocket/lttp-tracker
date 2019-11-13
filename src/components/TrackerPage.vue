@@ -35,14 +35,9 @@
 				id="itemdiv"
 				class="itemdiv"
 			>
-				<TrackerTable
-					v-if="displayVueMap"
-					:item-rows="itemRows"
-					:tracker-data="trackerData"
-					:tracker-options="trackerOptions"
-				></TrackerTable>
+				<!-- <TrackerTable></TrackerTable> -->
 			</div>
-			<WorldMap :track-data="trackerData"></WorldMap>
+			<WorldMap></WorldMap>
 		</div>
 
 		<!-- Setting panel-->
@@ -55,7 +50,7 @@
 			🔧
 		</button>
 		<fieldset
-			v-if="trackerOptions.settingsVisible"
+			v-if="settingsVisible"
 			id="settings"
 			class="settings"
 		>
@@ -300,67 +295,43 @@
 </template>
 
 <script>
-import TrackerTable from './TrackerTable.vue'
+// import TrackerTable from './TrackerTable.vue'
 import WorldMap from './WorldMap.vue'
-
-import Items from '../script/items.js'
-// import chests from '../script/chests.js'
+import { store } from '../store/store.js'
 
 export default {
 	components: {
-		TrackerTable,
+		// TrackerTable,
 		WorldMap
 	},
 	data () {
 		return {
-			itemRows: [],
-			trackerData: {
-				items: Items.data.itemsInit,
-				dungeonchests: Items.data.dungeonchestsInit,
-				bigkeys: Items.data.bigkeyInit,
-				smallkeys: Items.data.smallkeyInit,
-				dungeonbeaten: Items.data.dungeonbeatenInit,
-				prizes: Items.data.prizesInit,
-				medallions: Items.data.medallionsInit,
-				chestsopened: []
-			},
-			trackerOptions: {
-				showchests: true,
-				showbigkeys: false,
-				showsmallkeys: false,
-				showprizes: true,
-				showmedals: true,
-				showlabels: true,
-				mapLogic: 'glitchless',
-				editmode: false,
-				settingsVisible: false,
-				selected: {}
-			},
-			displayVueMap: false
+			settingsVisible: false
 		}
 	},
 	methods: {
 		createRoom () { },
 		editMode () { },
 		showSettings () {
-			if (this.trackerOptions.editmode) {
-				this.trackerOptions.showchests = document.getElementsByName('showchest')[0].checked
-				this.trackerOptions.showbigkeys = document.getElementsByName('showbigkeys')[0].checked
-				this.trackerOptions.showsmallkeys = document.getElementsByName('showsmallkeys')[0].checked
-				this.trackerOptions.showprizes = document.getElementsByName('showcrystal')[0].checked
-				this.trackerOptions.showmedals = document.getElementsByName('showmedallion')[0].checked
-				this.trackerOptions.showlabels = document.getElementsByName('showlabel')[0].checked
-				this.trackerOptions.editmode = false
+			console.log(store)
+			if (this.$store.state.trackerOptions.editmode) {
+				this.$store.commit('updateOption', 'showchest', document.getElementsByName('showchest')[0].checked)
+				this.$store.commit('updateOption', 'showbigkeys', document.getElementsByName('showbigkeys')[0].checked)
+				this.$store.commit('updateOption', 'showsmallkeys', document.getElementsByName('showsmallkeys')[0].checked)
+				this.$store.commit('updateOption', 'showcrystal', document.getElementsByName('showcrystal')[0].checked)
+				this.$store.commit('updateOption', 'showmedallion', document.getElementsByName('showmedallion')[0].checked)
+				this.$store.commit('updateOption', 'showlabel', document.getElementsByName('showlabel')[0].checked)
+				this.$store.commit('updateOption', 'editmode', false)
 				// showTracker('mapdiv', document.getElementsByName('showmap')[0])
 				// document.getElementById('itemconfig').style.display = 'none'
 
 				// sender.innerHTML = '🔧'
 				// saveCookie()
 			} else {
-				if (this.trackerOptions.settingsVisible) {
-					this.trackerOptions.settingsVisible = false
+				if (this.settingsVisible) {
+					this.settingsVisible = false
 				} else {
-					this.trackerOptions.settingsVisible = true
+					this.settingsVisible = true
 				}
 			}
 		},

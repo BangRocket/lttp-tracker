@@ -7,18 +7,15 @@
 </template>
 
 <script>
-import Logic from '../script/logic.js'
+import { Logic } from '../script/logic.js'
 import Locations from '../script/chests.js'
 // import Items from '../script/items.js'
 
 export default {
 	name: 'WorldMap',
 	mixins: [Logic],
-	props: ['trackData'],
 	data () {
-		return {
-			trackerData: this.trackData
-		}
+		return { }
 	},
 	created: function () {
 		// var mapdiv = document.getElementById('mapdiv')
@@ -30,7 +27,7 @@ export default {
 		// Initialize all chests on the map
 		for (var k = 0; k < Locations.data.chests.length; k++) {
 			var s = document.createElement('span')
-			s.style.backgroundImage = 'url(/images/poi.png)'
+			s.style.backgroundImage = 'url(/assets/poi.png)'
 			s.style.color = 'black'
 			s.id = k
 			// s.onclick = new Function('toggleChest(' + k + ')')

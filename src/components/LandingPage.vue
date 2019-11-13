@@ -195,10 +195,7 @@
 
 <script>
 export default {
-	name: 'LandingPage',
-	props: {
-		msg: String
-	}
+	name: 'LandingPage'
 }
 </script>
 

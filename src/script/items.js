@@ -1,4 +1,4 @@
-var defaultItemGrid = [
+export var defaultItemGrid = [
 	[
 		'bow',
 		'hookshot',
@@ -53,7 +53,7 @@ var defaultItemGrid = [
 	]
 ]
 
-var itemsInit = {
+export var itemsInit = {
 	bow: false,
 	boomerang: 0,
 	hookshot: false,
@@ -104,7 +104,7 @@ var itemsInit = {
 	blank: false
 }
 
-var dungeonchestsInit = {
+export var dungeonchestsInit = {
 	0: 3,
 	1: 2,
 	2: 2,
@@ -118,14 +118,14 @@ var dungeonchestsInit = {
 	10: 20
 }
 
-var bigkeyInit = [false, false, false, false, false, false, false, false, false, false, false]
-var smallkeyInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+export var bigkeyInit = [false, false, false, false, false, false, false, false, false, false, false]
+export var smallkeyInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-var dungeonbeatenInit = [false, false, false, false, false, false, false, false, false, false, false]
-var prizesInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-var medallionsInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+export var dungeonbeatenInit = [false, false, false, false, false, false, false, false, false, false, false]
+export var prizesInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+export var medallionsInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-var itemsMin = {
+export var itemsMin = {
 	sword: 0,
 	shield: 0,
 	tunic: 1,
@@ -154,7 +154,7 @@ var itemsMin = {
 	boss10: 1
 }
 
-var itemsMax = {
+export var itemsMax = {
 	sword: 4,
 	shield: 3,
 	tunic: 3,
@@ -205,20 +205,4 @@ var itemsMax = {
 	key8: 3,
 	key9: 4,
 	key10: 4
-}
-
-export default {
-	name: 'Items',
-	data: {
-		defaultItemGrid: defaultItemGrid,
-		itemsInit: itemsInit,
-		dungeonchestsInit: dungeonchestsInit,
-		bigkeyInit: bigkeyInit,
-		smallkeyInit: smallkeyInit,
-		dungeonbeatenInit: dungeonbeatenInit,
-		prizesInit: prizesInit,
-		medallionsInit: medallionsInit,
-		itemsMin: itemsMin,
-		itemsMax: itemsMax
-	}
 }
