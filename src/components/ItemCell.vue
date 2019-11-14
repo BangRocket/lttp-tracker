@@ -52,9 +52,10 @@
 <script>
 import { Locations } from '../script/chests.js'
 import { store } from '../store/store.js'
+import { itemsMin, itemsMax } from '../script/items.js'
 
 export default {
-	name: 'TrackerCell',
+	name: 'ItemCell',
 	props: [
 		'itemValue',
 		'itemName',
@@ -88,14 +89,14 @@ export default {
 		},
 		backgroundImage: function () {
 			if (this.itemName === 'blank') {
-				return this.trackerOptions.editmode ? 'url(/images/blank.png)' : 'none'
+				return this.trackerOptions.editmode ? 'url(./assets/items/blank.png)' : 'none'
 			} else if (typeof this.itemValue === 'boolean') {
-				return 'url(/images/' + this.itemName + '.png)'
+				return 'url(./assets/items/' + this.itemName + '.png)'
 			} else if (this.textCounter !== null) {
-				return 'url(/images/' + this.itemName + '.png)'
+				return 'url(./assets/items/' + this.itemName + '.png)'
 			}
 			return (
-				'url(/images/' +
+				'url(./assets/items/' +
 				this.itemName +
 				(this.trackerOptions.editmode
 					? Locations.data.itemsMax[this.itemName]
@@ -115,7 +116,7 @@ export default {
 				this.trackerOptions.showchests
 			) {
 				return (
-					'url(/images/chest' +
+					'url(./assets/chests/chest' +
 					this.trackerData.dungeonchests[this.bossNum] +
 					'.png)'
 				)
@@ -130,9 +131,9 @@ export default {
 				this.trackerData.bigkeys
 			) {
 				if (this.trackerData.bigkeys[this.bossNum]) {
-					return 'url(/images/bigkey.png)'
+					return 'url(./assets/items/bigkey.png)'
 				} else {
-					return 'url(/images/nothing.png)'
+					return 'url(./assets/items/nothing.png)'
 				}
 			}
 			return null
@@ -146,12 +147,12 @@ export default {
 			) {
 				if (this.trackerData.smallkeys[this.bossNum] > 0) {
 					return (
-						'url(/images/smallkey' +
+						'url(./assets/items/smallkey' +
 						this.trackerData.smallkeys[this.bossNum] +
 						'.png)'
 					)
 				} else {
-					return 'url(/images/nothing.png)'
+					return 'url(./assets/items/nothing.png)'
 				}
 			}
 			return null
@@ -164,7 +165,7 @@ export default {
 				this.trackerOptions.showprizes
 			) {
 				return (
-					'url(/images/dungeon' +
+					'url(./assets/bosses' +
 					this.trackerData.prizes[this.bossNum] +
 					'.png)'
 				)
@@ -178,7 +179,7 @@ export default {
 				this.trackerOptions.showmedals
 			) {
 				return (
-					'url(/images/medallion' +
+					'url(/assets/items/medallion' +
 					this.trackerData.medallions[this.bossNum] +
 					'.png)'
 				)
@@ -194,28 +195,28 @@ export default {
 			// Non-edit mode clicks
 			if (this.bossNum) {
 				// Do both this and the below for bosses
-				rootRef
-					.child("dungeonbeaten")
-					.child(this.bossNum)
-					.set(!this.trackerData.dungeonbeaten[this.bossNum]);
+				// rootRef
+				// 	.child("dungeonbeaten")
+				// 	.child(this.bossNum)
+				// 	.set(!this.trackerData.dungeonbeaten[this.bossNum]);
 			}
-			if (typeof this.itemValue === "boolean") {
-				rootRef
-					.child("items")
-					.child(this.itemName)
-					.set(!this.itemValue);
+			if (typeof this.itemValue === 'boolean') {
+				// rootRef
+				// 	.child("items")
+				// 	.child(this.itemName)
+				// 	.set(!this.itemValue);
 			} else {
-				var newVal = (this.itemValue || 0) + amt;
+				var newVal = (this.itemValue || 0) + amt
 				if (newVal > itemsMax[this.itemName]) {
-					newVal = itemsMin[this.itemName];
+					newVal = itemsMin[this.itemName]
 				}
 				if (newVal < itemsMin[this.itemName]) {
-					newVal = itemsMax[this.itemName];
+					newVal = itemsMax[this.itemName]
 				}
-				rootRef
-					.child("items")
-					.child(this.itemName)
-					.set(newVal);
+				// rootRef
+				// 	.child("items")
+				// 	.child(this.itemName)
+				// 	.set(newVal);
 			}
 		},
 		clickCellForward: function (e) {
@@ -225,10 +226,10 @@ export default {
 			this.clickCell(-1)
 		},
 		clickMedallion: function (amt) {
-			rootRef
-				.child("medallions")
-				.child(this.bossNum)
-				.set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4);
+			// rootRef
+			// 	.child('medallions')
+			// 	.child(this.bossNum)
+			// 	.set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4);
 		},
 		clickMedallionForward: function (e) {
 			this.clickMedallion(1)
@@ -237,14 +238,14 @@ export default {
 			this.clickMedallion(-1)
 		},
 		clickChest: function (amt) {
-			var chestitem = 'chest' + this.bossNum
-			var modamt = itemsMax[chestitem] + 1
-			var newVal =
-				(this.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt;
-			rootRef
-				.child("dungeonchests")
-				.child(this.bossNum)
-				.set(newVal);
+			// var chestitem = 'chest' + this.bossNum
+			// var modamt = itemsMax[chestitem] + 1
+			// var newVal =
+			// 	(this.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt
+			// rootRef
+			// 	.child("dungeonchests")
+			// 	.child(this.bossNum)
+			// 	.set(newVal);
 		},
 		clickChestForward: function (e) {
 			this.clickChest(1)
@@ -253,20 +254,20 @@ export default {
 			this.clickChest(-1)
 		},
 		clickBigKey: function (e) {
-			rootRef
-				.child("bigkeys")
-				.child(this.bossNum)
-				.set(!this.trackerData.bigkeys[this.bossNum]);
+			// rootRef
+			// 	.child("bigkeys")
+			// 	.child(this.bossNum)
+			// 	.set(!this.trackerData.bigkeys[this.bossNum]);
 		},
 		clickSmallKey: function (amt) {
-			var keyitem = 'key' + this.bossNum
-			var modamt = itemsMax[keyitem] + 1
-			var newVal =
-				(this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt;
-			rootRef
-				.child("smallkeys")
-				.child(this.bossNum)
-				.set(newVal);
+			// var keyitem = 'key' + this.bossNum
+			// var modamt = itemsMax[keyitem] + 1
+			// var newVal =
+			// 	(this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt
+			// rootRef
+			// 	.child("smallkeys")
+			// 	.child(this.bossNum)
+			// 	.set(newVal);
 		},
 		clickSmallKeyForward: function (e) {
 			this.clickSmallKey(1)
@@ -275,10 +276,10 @@ export default {
 			this.clickSmallKey(-1)
 		},
 		clickPrize: function (amt) {
-			rootRef
-				.child("prizes")
-				.child(this.bossNum)
-				.set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5);
+			// rootRef
+			// 	.child("prizes")
+			// 	.child(this.bossNum)
+			// 	.set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5)
 		},
 		clickPrizeForward: function (e) {
 			this.clickPrize(1)

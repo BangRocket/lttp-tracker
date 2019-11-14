@@ -4424,8 +4424,7 @@ chests[63] = {
 	}
 }
 
-export default {
-	name: 'Locations',
+export var Locations = {
 	data: {
 		chests: chests,
 		dungeons: dungeons

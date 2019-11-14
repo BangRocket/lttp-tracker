@@ -35,7 +35,7 @@
 				id="itemdiv"
 				class="itemdiv"
 			>
-				<!-- <TrackerTable></TrackerTable> -->
+				<ItemTable></ItemTable>
 			</div>
 			<WorldMap></WorldMap>
 		</div>
@@ -295,13 +295,13 @@
 </template>
 
 <script>
-// import TrackerTable from './TrackerTable.vue'
+import ItemTable from './ItemTable.vue'
 import WorldMap from './WorldMap.vue'
 import { store } from '../store/store.js'
 
 export default {
 	components: {
-		// TrackerTable,
+		ItemTable,
 		WorldMap
 	},
 	data () {

@@ -5,32 +5,32 @@
 			:style="{}"
 		>
 			<div
-				v-for="(itemRow, itemRowIndex) in store.itemRows"
+				v-for="(itemRow, itemRowIndex) in records.itemRows"
 				:key="itemRowIndex"
 			>
 				<div
 					:style="{ width: (maxRowLength - itemRow.length) * 32 + 'px', display:'inline-block' }"
 					class="rowSpacer"
 				></div>
-				<tracker-cell
+				<ItemCell
 					v-for="(item, itemColumnIndex) in itemRow"
 					:key="itemColumnIndex + '-' + itemRowIndex"
 					:item-name="item"
 					:item-value="itemFor(item)"
 					:column-index="itemColumnIndex"
 					:row-index="itemRowIndex"
-					:tracker-data="store.trackerData"
-					:tracker-options="store.trackerOptions"
-				></tracker-cell>
+					:tracker-data="records.trackerData"
+					:tracker-options="records.trackerOptions"
+				></ItemCell>
 				<button
-					v-if="store.trackerOptions && store.trackerOptions.editmode"
+					v-if="records.trackerOptions && records.trackerOptions.editmode"
 					:style="{backgroundColor: 'red', color: 'white', verticalAlign: 'top', marginTop: '20px'}"
 					@click.prevent.stop="removeItem(itemRowIndex)"
 				>
 					-
 				</button>
 				<button
-					v-if="store.trackerOptions && store.trackerOptions.editmode"
+					v-if="records.trackerOptions && records.trackerOptions.editmode"
 					:style="{backgroundColor: 'green', color: 'white', verticalAlign: 'top', marginTop: '20px'}"
 					@click.prevent.stop="addItem(itemRowIndex)"
 				>
@@ -38,7 +38,7 @@
 				</button>
 			</div>
 			<button
-				v-if="store.trackerOptions && store.trackerOptions.editmode"
+				v-if="records.trackerOptions && records.trackerOptions.editmode"
 				@click.prevent.stop="addRow"
 			>
 				Add row
@@ -49,9 +49,16 @@
 
 <script>
 import { store } from '../store/store.js'
+import ItemCell from '../components/ItemCell.vue'
 
 export default {
-	name: 'TrackerTable',
+	name: 'ItemTable',
+	components: [ItemCell],
+	data () {
+		return {
+			records: store.state
+		}
+	},
 	computed: {
 		maxRowLength: function () {
 			return !store.itemRows.reduce

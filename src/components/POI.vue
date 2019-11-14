@@ -1,8 +1,11 @@
 <template>
 	<div
 		:id="id"
+		:ref="type + '-' + index"
 		:style="style"
 		:class="['mapspan', type, status]"
+		v-on:mouseover="highlight"
+		v-on:mouseleave="unhighlight"
 	>
 	</div>
 </template>
@@ -10,7 +13,7 @@
 <script>
 export default {
 	name: 'POI',
-	props: ['id', 'image', 'color', 'left', 'top', 'type', 'status'],
+	props: ['id', 'index', 'image', 'color', 'left', 'top', 'type', 'status'],
 	data () {
 		return {
 			style: {
@@ -19,6 +22,44 @@ export default {
 				left: this.left,
 				top: this.top
 			}
+		}
+	},
+	methods:
+	{
+		// Event of clicking a chest on the map
+		toggleChest: function (x) {
+			// rootRef.child('chestsopened').child(x).set(!trackerData.chestsopened[x])
+		},
+		// Highlights a chest location and shows the name as caption
+		highlight: function (x) {
+			if (x.target.classList.contains('boss')) {
+				// handle highlight for bosses here
+				return
+			}
+
+			if (x.target.classList.contains('dungeon')) {
+				// handle highlight for dungeons here
+				this.$refs[this.type + '-' + this.index].style.backgroundImage = 'url(/assets/map/highlighted.png)'
+				return
+			}
+			x.target.style.backgroundImage = 'url(/assets/map/highlighted.png)'
+			// document.getElementById(x).style.backgroundImage = 'url(/assets/map/highlighted.png)';
+			// document.getElementById('caption').innerHTML = chests[x].name
+		},
+		unhighlight: function (x) {
+			if (x.target.classList.contains('boss')) {
+				// handle highlight for bosses here
+				return
+			}
+
+			if (x.target.classList.contains('dungeon')) {
+				// handle highlight for dungeons here
+				this.$refs[this.type + '-' + this.index].style.backgroundImage = 'url(/assets/map/poi.png)'
+				return
+			}
+			x.target.style.backgroundImage = 'url(/assets/map/poi.png)'
+			// document.getElementById(x).style.backgroundImage = 'url(/assets/map/poi.png)';
+			// document.getElementById('caption').innerHTML = '&nbsp;';
 		}
 	}
 }

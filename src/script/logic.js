@@ -297,7 +297,7 @@ export function Availability (
 	this._inverted = inverted
 
 	this.getClassName = function () {
-		return store.state.trackerOptions.mapLogic
+		return this[store.state.trackerOptions.mapLogic]
 	}
 }
 
