@@ -4,8 +4,8 @@
 		:ref="type + '-' + index"
 		:style="style"
 		:class="['mapspan', type, status]"
-		v-on:mouseover="highlight"
-		v-on:mouseleave="unhighlight"
+		@mouseover="highlight"
+		@mouseleave="unhighlight"
 	>
 	</div>
 </template>

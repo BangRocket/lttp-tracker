@@ -7,7 +7,8 @@ import {
 	smallkeyInit,
 	dungeonbeatenInit,
 	prizesInit,
-	medallionsInit
+	medallionsInit,
+	defaultItemGrid
 } from '../script/items.js'
 
 Vue.use(Vuex)
@@ -16,7 +17,7 @@ export var store = new Vuex.Store({
 	state: {
 		firebaseUID: {},
 		roofRef: {},
-		itemRows: [],
+		itemRows: defaultItemGrid,
 		trackerData: {
 			items: itemsInit,
 			dungeonchests: dungeonchestsInit,

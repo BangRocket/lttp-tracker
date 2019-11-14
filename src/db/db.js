@@ -1,5 +1,9 @@
+import Vue from 'vue'
 import firebase from 'firebase'
+import { rtdbPlugin } from 'vuefire'
 import { store } from '../store/store.js'
+
+Vue.use(rtdbPlugin)
 
 var authAttempted = false
 

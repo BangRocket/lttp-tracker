@@ -19,8 +19,6 @@
 					:item-value="itemFor(item)"
 					:column-index="itemColumnIndex"
 					:row-index="itemRowIndex"
-					:tracker-data="records.trackerData"
-					:tracker-options="records.trackerOptions"
 				></ItemCell>
 				<button
 					v-if="records.trackerOptions && records.trackerOptions.editmode"
@@ -53,7 +51,7 @@ import ItemCell from '../components/ItemCell.vue'
 
 export default {
 	name: 'ItemTable',
-	components: [ItemCell],
+	components: { ItemCell },
 	data () {
 		return {
 			records: store.state
@@ -61,9 +59,9 @@ export default {
 	},
 	computed: {
 		maxRowLength: function () {
-			return !store.itemRows.reduce
+			return !store.state.itemRows.reduce
 				? 0
-				: store.itemRows
+				: store.state.itemRows
 					.map(function (i) {
 						return i.length
 					})
