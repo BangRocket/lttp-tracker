@@ -314,14 +314,14 @@ export default {
 		editMode () { },
 		showSettings () {
 			console.log(store)
-			if (this.$store.state.trackerOptions.editmode) {
-				this.$store.commit('updateOption', 'showchest', document.getElementsByName('showchest')[0].checked)
-				this.$store.commit('updateOption', 'showbigkeys', document.getElementsByName('showbigkeys')[0].checked)
-				this.$store.commit('updateOption', 'showsmallkeys', document.getElementsByName('showsmallkeys')[0].checked)
-				this.$store.commit('updateOption', 'showcrystal', document.getElementsByName('showcrystal')[0].checked)
-				this.$store.commit('updateOption', 'showmedallion', document.getElementsByName('showmedallion')[0].checked)
-				this.$store.commit('updateOption', 'showlabel', document.getElementsByName('showlabel')[0].checked)
-				this.$store.commit('updateOption', 'editmode', false)
+			if (store.state.trackerOptions.editmode) {
+				store.commit('updateTrackerData', { key: 'showchest', value: document.getElementsByName('showchest')[0].checked })
+				store.commit('updateTrackerData', { key: 'showbigkeys', value: document.getElementsByName('showbigkeys')[0].checked })
+				store.commit('updateTrackerData', { key: 'showsmallkeys', value: document.getElementsByName('showsmallkeys')[0].checked })
+				store.commit('updateTrackerData', { key: 'showcrystal', value: document.getElementsByName('showcrystal')[0].checked })
+				store.commit('updateTrackerData', { key: 'showmedallion', value: document.getElementsByName('showmedallion')[0].checked })
+				store.commit('updateTrackerData', { key: 'showlabel', value: document.getElementsByName('showlabel')[0].checked })
+				store.commit('updateTrackerData', { key: 'editmode', value: false })
 				// showTracker('mapdiv', document.getElementsByName('showmap')[0])
 				// document.getElementById('itemconfig').style.display = 'none'
 
@@ -491,30 +491,6 @@ label {
 	vertical-align: text-bottom;
 }
 
-.boss {
-	width: 24px;
-	height: 24px;
-
-	background: no-repeat center;
-	background-size: 75% 75%;
-
-	position: absolute;
-	margin-left: -12px;
-	margin-top: -12px;
-
-	z-index: 2;
-}
-
-.dungeon {
-	width: 48px;
-	height: 48px;
-	background-size: 100% 100%;
-
-	position: absolute;
-	margin-left: -24px;
-	margin-top: -24px;
-}
-
 .itemdiv {
 	position: relative;
 	left: 0;
@@ -538,50 +514,5 @@ label {
 	width: 438px;
 	height: 888px;
 	left: 0;
-}
-
-.chest {
-	width: 24px;
-	height: 24px;
-	background-size: 100% 100%;
-
-	position: absolute;
-	margin-left: -12px;
-	margin-top: -12px;
-}
-
-.unavailable {
-	background-color: rgb(255, 0, 0);
-}
-
-.available {
-	background-color: rgb(0, 255, 0);
-	color: rgb(0, 0, 0);
-}
-
-.possible {
-	background-color: rgb(255, 255, 0);
-	color: rgb(0, 0, 0);
-}
-
-.agahnim {
-	background-color: rgb(0, 255, 255);
-	color: rgb(0, 0, 0);
-}
-
-.glitchavailable {
-	background-color: rgb(0, 127, 0);
-}
-
-.glitchpossible {
-	background-color: rgb(192, 192, 0);
-}
-
-.glitchagahnim {
-	background-color: rgb(0, 160, 160);
-}
-
-.opened {
-	background-color: rgb(127, 127, 127);
 }
 </style>

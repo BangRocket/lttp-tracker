@@ -14,9 +14,8 @@ Vue.use(Vuex)
 
 export var store = new Vuex.Store({
 	state: {
-		firebase: {
-			uid: -1
-		},
+		firebaseUID: {},
+		roofRef: {},
 		itemRows: [],
 		trackerData: {
 			items: itemsInit,
@@ -43,26 +42,17 @@ export var store = new Vuex.Store({
 		displayVueMap: false
 	},
 	mutations: {
-		updateData (key, value) {
-			this.state.trackerData[key] = value
+		updateTrackerData (state, payload) {
+			state.trackerData[payload.key] = payload.value
 		},
-		updateOption (key, value) {
-			this.state.trackerOptions[key] = value
+		updateOption (state, payload) {
+			state.trackerOptions[payload.key] = payload.value
 		},
-		updateRows (key, row, column, value) {
-			this.state.itemRows[row][column] = value
+		updateRows (state, payload) {
+			state.itemRows[payload.row][payload.column] = payload.value
 		},
-		setData (value) {
-			this.state.trackerData = value
-		},
-		setOption (value) {
-			this.state.trackerOptions = value
-		},
-		setRows (value) {
-			this.state.itemRows = value
-		},
-		setFirebaseUID (value) {
-			this.state.firebase.uid = value
+		setData (state, payload) {
+			state[payload.key] = payload.value
 		}
 	}
 })
