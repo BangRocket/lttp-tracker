@@ -207,4 +207,18 @@ exports.itemsMax = {
 	key10: 4
 }
 
-exports.chestsopenedInit = []
+exports.chestsopenedInit = [
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false
+]

@@ -27,7 +27,7 @@ export var store = new Vuex.Store({
 			dungeonbeaten: dungeonbeatenInit,
 			prizes: prizesInit,
 			medallions: medallionsInit,
-			chestsopened: []
+			chestsopened: chestsopenedInit
 		},
 		trackerOptions: {
 			showchests: true,

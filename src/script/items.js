@@ -104,6 +104,7 @@ export var itemsInit = {
 	blank: false
 }
 
+// why is this one an object and the others an array?
 export var dungeonchestsInit = {
 	0: 3,
 	1: 2,
@@ -207,4 +208,17 @@ export var itemsMax = {
 	key10: 4
 }
 
-export var chestsopenedInit = []
+export var chestsopenedInit = [	
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false, false,
+	false, false, false, false]

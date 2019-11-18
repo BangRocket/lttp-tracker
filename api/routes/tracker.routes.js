@@ -1,18 +1,15 @@
 module.exports = (app) => {
-	const notes = require('../controllers/tracker.controller.js')
+	const room = require('../controllers/tracker.controller.js')
 
-	// Create a new Note
-	app.post('/notes', notes.create)
+	// Create a new room
+	app.post('/room', room.create)
 
-	// Retrieve all Notes
-	app.get('/notes', notes.findAll)
+	// Retrieve a single room with roomid
+	app.get('/room/:roomid', room.get)
 
-	// Retrieve a single Note with noteId
-	app.get('/notes/:noteId', notes.findOne)
+	// Update a room with roomid
+	app.put('/room/:roomid', room.update)
 
-	// Update a Note with noteId
-	app.put('/notes/:noteId', notes.update)
-
-	// Delete a Note with noteId
-	app.delete('/notes/:noteId', notes.delete)
+	// Delete a room with roomid
+	app.delete('/room/:roomid', room.delete)
 }
