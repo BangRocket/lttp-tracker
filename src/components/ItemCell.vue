@@ -50,6 +50,7 @@
 
 <script>
 import { Locations } from '../script/chests.js'
+import { mapState } from 'vuex'
 import { store } from '../store/store.js'
 import { itemsMin, itemsMax } from '../script/items.js'
 
@@ -71,8 +72,8 @@ export default {
 		dungeonLabel: function () {
 			if (
 				this.bossNum &&
-				store.state.trackerOptions &&
-				store.state.trackerOptions.showlabels
+				this.trackerOptions &&
+				this.trackerOptions.showlabels
 			) {
 				return Locations.data.dungeons[this.bossNum].label
 			}
@@ -85,8 +86,9 @@ export default {
 			return null
 		},
 		backgroundImage: function () {
+			// TODO: move bosses into separate folder
 			if (this.itemName === 'blank') {
-				return store.state.trackerOptions.editmode ? 'url(./assets/items/blank.png)' : 'none'
+				return this.trackerOptions.editmode ? 'url(./assets/items/blank.png)' : 'none'
 			} else if (typeof this.itemValue === 'boolean') {
 				return 'url(./assets/items/' + this.itemName + '.png)'
 			} else if (this.textCounter !== null) {
@@ -95,24 +97,24 @@ export default {
 			return (
 				'url(./assets/items/' +
 				this.itemName +
-				(store.state.trackerOptions.editmode
+				(this.trackerOptions.editmode
 					? itemsMax[this.itemName]
 					: this.itemValue || '0') +
 				'.png)'
 			)
 		},
 		isActive: function () {
-			return store.state.trackerOptions.editmode || this.itemValue
+			return this.trackerOptions.editmode || this.itemValue
 		},
 		chestImage: function () {
 			if (
 				this.bossNum &&
-				store.state.trackerOptions &&
-				store.state.trackerOptions.showchests
+				this.trackerOptions &&
+				this.trackerOptions.showchests
 			) {
 				return (
 					'url(./assets/chests/chest' +
-					store.state.trackerData.dungeonchests[this.bossNum] +
+					this.trackerData.dungeonchests[this.bossNum] +
 					'.png)'
 				)
 			}
@@ -121,11 +123,11 @@ export default {
 		bigKeyImage: function () {
 			if (
 				this.bossNum &&
-				store.state.trackerOptions &&
-				store.state.trackerOptions.showbigkeys &&
-				store.state.trackerData.bigkeys
+				this.trackerOptions &&
+				this.trackerOptions.showbigkeys &&
+				this.trackerData.bigkeys
 			) {
-				if (store.state.trackerData.bigkeys[this.bossNum]) {
+				if (this.trackerData.bigkeys[this.bossNum]) {
 					return 'url(./assets/items/bigkey.png)'
 				} else {
 					return 'url(./assets/items/nothing.png)'
@@ -136,14 +138,14 @@ export default {
 		smallKeyImage: function () {
 			if (
 				this.bossNum &&
-				store.state.trackerOptions &&
-				store.state.trackerOptions.showsmallkeys &&
-				store.state.trackerData.smallkeys
+				this.trackerOptions &&
+				this.trackerOptions.showsmallkeys &&
+				this.trackerData.smallkeys
 			) {
-				if (store.state.trackerData.smallkeys[this.bossNum] > 0) {
+				if (this.trackerData.smallkeys[this.bossNum] > 0) {
 					return (
 						'url(./assets/items/smallkey' +
-						store.state.trackerData.smallkeys[this.bossNum] +
+						this.trackerData.smallkeys[this.bossNum] +
 						'.png)'
 					)
 				} else {
@@ -156,12 +158,12 @@ export default {
 			if (
 				this.bossNum &&
 				this.bossNum !== '10' &&
-				store.state.trackerOptions &&
-				store.state.trackerOptions.showprizes
+				this.trackerOptions &&
+				this.trackerOptions.showprizes
 			) {
 				return (
 					'url(./assets/chests' +
-					store.state.trackerData.prizes[this.bossNum] +
+					this.trackerData.prizes[this.bossNum] +
 					'.png)'
 				)
 			}
@@ -170,22 +172,23 @@ export default {
 		medallionImage: function () {
 			if (
 				(this.bossNum === '8' || this.bossNum === '9') &&
-				store.state.trackerOptions &&
-				store.state.trackerOptions.showmedals
+				this.trackerOptions &&
+				this.trackerOptions.showmedals
 			) {
 				return (
 					'url(/assets/items/medallion' +
-					store.state.trackerData.medallions[this.bossNum] +
+					this.trackerData.medallions[this.bossNum] +
 					'.png)'
 				)
 			}
 			return null
-		}
+		},
+		...mapState(['trackerData', 'trackerOptions', 'isRoomLoaded'])
 	},
 	methods: {
 		clickCell: function (amt) {
-			if (store.state.trackerOptions.editmode) {
-				store.commit('updateRows', this.rowIndex, this.columnIndex, store.state.trackerOptions.selected.item || 'blank')
+			if (this.trackerOptions.editmode) {
+				store.commit('updateRows', this.rowIndex, this.columnIndex, this.trackerOptions.selected.item || 'blank')
 			}
 			// Non-edit mode clicks
 			if (this.bossNum) {
@@ -193,7 +196,7 @@ export default {
 				// rootRef
 				// 	.child("dungeonbeaten")
 				// 	.child(this.bossNum)
-				// 	.set(!store.state.trackerData.dungeonbeaten[this.bossNum]);
+				// 	.set(!this.trackerData.dungeonbeaten[this.bossNum]);
 			}
 			if (typeof this.itemValue === 'boolean') {
 				// rootRef
@@ -224,7 +227,7 @@ export default {
 			// rootRef
 			// 	.child('medallions')
 			// 	.child(this.bossNum)
-			// 	.set((store.state.trackerData.medallions[this.bossNum] + amt + 4) % 4);
+			// 	.set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4);
 		},
 		clickMedallionForward: function (e) {
 			this.clickMedallion(1)
@@ -236,7 +239,7 @@ export default {
 			// var chestitem = 'chest' + this.bossNum
 			// var modamt = itemsMax[chestitem] + 1
 			// var newVal =
-			// 	(store.state.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt
+			// 	(this.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt
 			// rootRef
 			// 	.child("dungeonchests")
 			// 	.child(this.bossNum)
@@ -252,13 +255,13 @@ export default {
 			// rootRef
 			// 	.child("bigkeys")
 			// 	.child(this.bossNum)
-			// 	.set(!store.state.trackerData.bigkeys[this.bossNum]);
+			// 	.set(!this.trackerData.bigkeys[this.bossNum]);
 		},
 		clickSmallKey: function (amt) {
 			// var keyitem = 'key' + this.bossNum
 			// var modamt = itemsMax[keyitem] + 1
 			// var newVal =
-			// 	(store.state.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt
+			// 	(this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt
 			// rootRef
 			// 	.child("smallkeys")
 			// 	.child(this.bossNum)
@@ -274,7 +277,7 @@ export default {
 			// rootRef
 			// 	.child("prizes")
 			// 	.child(this.bossNum)
-			// 	.set((store.state.trackerData.prizes[this.bossNum] + amt + 5) % 5)
+			// 	.set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5)
 		},
 		clickPrizeForward: function (e) {
 			this.clickPrize(1)

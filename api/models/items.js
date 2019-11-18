@@ -1,4 +1,4 @@
-export var defaultItemGrid = [
+exports.defaultItemGrid = [
 	[
 		'bow',
 		'hookshot',
@@ -53,7 +53,7 @@ export var defaultItemGrid = [
 	]
 ]
 
-export var itemsInit = {
+exports.itemsInit = {
 	bow: false,
 	boomerang: 0,
 	hookshot: false,
@@ -104,7 +104,7 @@ export var itemsInit = {
 	blank: false
 }
 
-export var dungeonchestsInit = {
+exports.dungeonchestsInit = {
 	0: 3,
 	1: 2,
 	2: 2,
@@ -118,14 +118,14 @@ export var dungeonchestsInit = {
 	10: 20
 }
 
-export var bigkeyInit = [false, false, false, false, false, false, false, false, false, false, false]
-export var smallkeyInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+exports.bigkeyInit = [false, false, false, false, false, false, false, false, false, false, false]
+exports.smallkeyInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-export var dungeonbeatenInit = [false, false, false, false, false, false, false, false, false, false, false]
-export var prizesInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-export var medallionsInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+exports.dungeonbeatenInit = [false, false, false, false, false, false, false, false, false, false, false]
+exports.prizesInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+exports.medallionsInit = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-export var itemsMin = {
+exports.itemsMin = {
 	sword: 0,
 	shield: 0,
 	tunic: 1,
@@ -154,7 +154,7 @@ export var itemsMin = {
 	boss10: 1
 }
 
-export var itemsMax = {
+exports.itemsMax = {
 	sword: 4,
 	shield: 3,
 	tunic: 3,
@@ -207,4 +207,4 @@ export var itemsMax = {
 	key10: 4
 }
 
-export var chestsopenedInit = []
+exports.chestsopenedInit = []

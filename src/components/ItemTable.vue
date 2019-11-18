@@ -48,6 +48,7 @@
 <script>
 import { store } from '../store/store.js'
 import ItemCell from '../components/ItemCell.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'ItemTable',
@@ -59,34 +60,47 @@ export default {
 	},
 	computed: {
 		maxRowLength: function () {
-			return !store.state.itemRows.reduce
+			return !this.itemRows.reduce
 				? 0
-				: store.state.itemRows
+				: this.itemRows
 					.map(function (i) {
 						return i.length
 					})
 					.reduce(function (a, b) {
 						return Math.max(a, b)
 					})
-		}
+		},
+		...mapState(['trackerData', 'itemRows'])
 	},
 	methods: {
 		itemFor: function (itemName) {
-			if (store.state.trackerData || !store.state.trackerData.items) return null
-			return store.state.trackerData.items[itemName]
+			if (!this.trackerData || !this.trackerData.items) {
+				return null
+			}
+			return this.trackerData.items[itemName]
 		},
 		addRow: function (e) {
-			store.state.itemRows.push(['blank'])
+			this.itemRows.push(['blank'])
 		},
 		addItem: function (rowIndex) {
-			store.state.itemRows[rowIndex].push('blank')
+			this.itemRows[rowIndex].push('blank')
 		},
 		removeItem: function (rowIndex) {
-			store.state.itemRows[rowIndex].pop()
-			if (store.state.itemRows[rowIndex].length === 0) {
-				store.state.temRows.splice(rowIndex, 1)
+			this.itemRows[rowIndex].pop()
+			if (this.itemRows[rowIndex].length === 0) {
+				this.itemRows.splice(rowIndex, 1)
 			}
 		}
 	}
 }
 </script>
+
+<style>
+.true {
+	opacity: 1;
+}
+
+.false {
+	opacity: 0.25;
+}
+</style>

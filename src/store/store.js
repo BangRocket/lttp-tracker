@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import {
 	itemsInit,
 	dungeonchestsInit,
@@ -16,7 +17,7 @@ Vue.use(Vuex)
 export var store = new Vuex.Store({
 	state: {
 		firebaseUID: {},
-		roofRef: {},
+		isRoomLoaded: false,
 		itemRows: defaultItemGrid,
 		trackerData: {
 			items: itemsInit,

@@ -1,7 +1,9 @@
 <template>
 	<div>
-		<h1>tracker</h1>
-		<div id="createRoomPanel">
+		<div
+			v-if="!isRoomLoaded"
+			id="createRoomPanel"
+		>
 			<p>Either the room is still loading or there is not a room here.</p>
 			<p>Click the button below to initialize a room.</p>
 			<p>Be sure to give it a passcode so you can give access to others or yourself on another machine or after a cookie reset.</p>
@@ -17,7 +19,7 @@
 					id="initRoomButton"
 					type="button"
 					name="initRoom"
-					onclick="createRoom()"
+					@click="createRoom"
 				>
 					Create Room
 				</button>
@@ -35,9 +37,9 @@
 				id="itemdiv"
 				class="itemdiv"
 			>
-				<ItemTable></ItemTable>
+				<ItemTable v-if="isRoomLoaded"></ItemTable>
 			</div>
-			<WorldMap></WorldMap>
+			<WorldMap v-if="!showMap && isRoomLoaded"></WorldMap>
 		</div>
 
 		<!-- Setting panel-->
@@ -119,7 +121,7 @@
 					type="checkbox"
 					name="showmap"
 					checked="checked"
-					onchange="showTracker('mapdiv', this)"
+					@change="showTracker"
 				>Enabled<br>
 				Size<input
 					type="range"
@@ -297,7 +299,10 @@
 <script>
 import ItemTable from './ItemTable.vue'
 import WorldMap from './WorldMap.vue'
+
+import { mapState } from 'vuex'
 import { store } from '../store/store.js'
+import { initRoom, room } from '../db/db.js'
 
 export default {
 	components: {
@@ -306,15 +311,44 @@ export default {
 	},
 	data () {
 		return {
-			settingsVisible: false
+			settingsVisible: false,
+			showMap: false,
+			roomID: this.$route.params.id
 		}
 	},
+	computed: {
+		...mapState(['trackerData', 'trackerOptions', 'firebaseUID', 'isRoomLoaded'])
+	},
+	mounted: async function () {
+		initRoom(this.roomID)
+		var check = await room.child('owner').once('value')
+		var hasData = !(check.val() === null)
+		// check localstorage for pw, if not, request it
+		store.commit('setData', { key: 'isRoomLoaded', value: hasData })
+	},
 	methods: {
-		createRoom () { },
+		createRoom () {
+			var editors = {}
+			var passcode = document.getElementById('passcodeInput').value
+			editors[this.firebaseUID] = true
+			room.set({
+				owner: this.firebaseUID,
+				editors: editors,
+				passcode: passcode,
+				items: this.trackerData.items,
+				dungeonchests: this.trackerData.dungeonchests,
+				bigkeys: this.trackerData.bigkeys,
+				smallkeys: this.trackerData.smallkeys,
+				dungeonbeaten: this.trackerData.dungeonbeaten,
+				prizes: this.trackerData.prizes,
+				medallions: this.trackerData.medallions,
+				chestsopened: this.trackerData.medallions
+			})
+			store.commit('setData', { key: 'isRoomLoaded', value: true })
+		},
 		editMode () { },
 		showSettings () {
-			console.log(store)
-			if (store.state.trackerOptions.editmode) {
+			if (this.trackerOptions.editmode) {
 				store.commit('updateTrackerData', { key: 'showchest', value: document.getElementsByName('showchest')[0].checked })
 				store.commit('updateTrackerData', { key: 'showbigkeys', value: document.getElementsByName('showbigkeys')[0].checked })
 				store.commit('updateTrackerData', { key: 'showsmallkeys', value: document.getElementsByName('showsmallkeys')[0].checked })
@@ -322,7 +356,7 @@ export default {
 				store.commit('updateTrackerData', { key: 'showmedallion', value: document.getElementsByName('showmedallion')[0].checked })
 				store.commit('updateTrackerData', { key: 'showlabel', value: document.getElementsByName('showlabel')[0].checked })
 				store.commit('updateTrackerData', { key: 'editmode', value: false })
-				// showTracker('mapdiv', document.getElementsByName('showmap')[0])
+				this.showMap = document.getElementsByName('showmap')[0].checked
 				// document.getElementById('itemconfig').style.display = 'none'
 
 				// sender.innerHTML = '🔧'
@@ -340,7 +374,10 @@ export default {
 		showMedallion () { },
 		showBigKeys () { },
 		showSmallKeys () { },
-		showLabel () { }
+		showLabel () { },
+		showTracker () {
+			this.showMap = !this.showMap
+		}
 	}
 }
 </script>
@@ -475,14 +512,6 @@ label {
 	color: #fdd549;
 	user-select: none;
 	text-shadow: -2px -2px 1px black;
-}
-
-.true {
-	opacity: 1;
-}
-
-.false {
-	opacity: 0.25;
 }
 
 .mini {
