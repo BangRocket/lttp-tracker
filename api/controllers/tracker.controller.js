@@ -7,7 +7,7 @@ exports.create = (req, res) => {
 	if (!req.body) {
 		return res.status(400).send({
 			message: 'body can not be empty'
-		}) 
+		})
 	}
 
 	// new room must send at least a user/password/id combination. it can also send data about an existing room
@@ -15,17 +15,17 @@ exports.create = (req, res) => {
 
 	// Create a room
 	const room = new Room({
-	name: req.body.name || "",
-	data: {
+		name: req.body.name || '',
+		data: {
 			bigkeys: req.body.bigkeys || Items.bigkeyInit,
 			chestsopened: req.body.chestsopened || Items.chestsopenedInit,
 			dungeonsbeaten: req.body.dungeonsbeaten || Items.dungeonbeatenInit,
 			dungeonchests: req.body.dungeoncheats || Items.dungeonchestsInit,
-			editor: req.body.editor || "",
+			editor: req.body.editor || '',
 			items: req.body.items || Items.itemsInit,
 			medallions: req.body.medallions || Items.medallionsInit,
-			owner: req.body.owner || "",
-			passcode: req.body.passcode || "",
+			owner: req.body.owner || '',
+			passcode: req.body.passcode || '',
 			prizes: req.body.prizes || Items.prizesInit,
 			smallkeys: req.body.smallkeys || Items.smallkeyInit
 
@@ -61,7 +61,7 @@ exports.create = (req, res) => {
 
 // Find a single note with a roomid
 exports.get = (req, res) => {
-	Room.find({name: req.params.roomid})
+	Room.find({ name: req.params.roomid })
 		.then((room) => {
 			if (!room) {
 				return res.status(404).send({
@@ -92,61 +92,55 @@ exports.update = async (req, res) => {
 	}
 
 	// get whatever we currently have in the room data
-	var current = await Room.find({name: req.params.roomid}).then((room) => {
+	var current = await Room.find({ name: req.params.roomid }).then((room) => {
 		return room[0]
 	})
 
 	// build a object of params to be updated based on items passed in
 	for (const prop in req.body) {
-		switch (prop){
-			case 'bigkeys':
-			case 'chestsopened':
-			case 'dungeonsbeaten':
-				
-				let newVal = JSON.parse(req.body[prop])
-			
-				for (item in newVal){
-					let index = Number(Object.keys(newVal[item]))
-					let value = Boolean(Object.values(newVal[item]))
-					current.data[prop][index] = value
-				}
-				break;
-			case 'owner':
-			case 'passcode':
-			case 'editor':
-				current.data[prop] = req.body[prop]
-				break;
-			case 'medallions':
-			case 'prizes':
-			case 'smallkeys':			
-					let newVal1 = JSON.parse(req.body[prop])
-			
-					for (item in newVal1){
-						let index = Number(Object.keys(newVal1[item]))
-						let value = Number(Object.values(newVal1[item]))
-						current.data[prop][index] = value
-					}
-					break;
-			case 'items':
-			case 'dungeonchests':						
-					let newVal2 = JSON.parse(req.body[prop])
-			
-					for (item in newVal2){
-						let index = String(Object.keys(newVal2[item]))
-						let value = Object.values(newVal2[item])[0]			
+		const newVal = JSON.parse(req.body[prop])
 
-						current.data[prop][index] = typeof(value) == 'string' ? Number(value) : Boolean(value)
-					}
-					break;
-				break;
-			default:
-				break;
+		switch (prop) {
+		case 'bigkeys':
+		case 'chestsopened':
+		case 'dungeonsbeaten':
+			for (var item in newVal) {
+				const index = Number(Object.keys(newVal[item]))
+				const value = Boolean(Object.values(newVal[item]))
+				current.data[prop][index] = value
+			}
+			break
+		case 'owner':
+		case 'passcode':
+		case 'editor':
+			current.data[prop] = req.body[prop]
+			break
+		case 'medallions':
+		case 'prizes':
+		case 'smallkeys':
+			for (item in newVal) {
+				const index = Number(Object.keys(newVal[item]))
+				const value = Number(Object.values(newVal[item]))
+				current.data[prop][index] = value
+			}
+			break
+		case 'items':
+		case 'dungeonchests':
+			for (item in newVal) {
+				const index = String(Object.keys(newVal[item]))
+				const value = Object.values(newVal[item])[0]
+
+				current.data[prop][index] = typeof (value) === 'string' ? Number(value) : Boolean(value)
+			}
+			break
+		default:
+			break
 		}
 	}
 
 	// Find room and update it with the current data
 	Room.updateOne(
-		{name: req.params.roomid},
+		{ name: req.params.roomid },
 		{
 			data: current.data
 		}
@@ -173,7 +167,7 @@ exports.update = async (req, res) => {
 
 // Delete a note with the specified noteId in the request
 exports.delete = (req, res) => {
-	Room.deleteOne({name: req.params.roomid})
+	Room.deleteOne({ name: req.params.roomid })
 		.then((room) => {
 			if (!room) {
 				return res.status(404).send({

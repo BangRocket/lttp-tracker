@@ -4,7 +4,7 @@ const TrackerSchema = mongoose.Schema(
 	{
 		id: String,
 		name: String,
-		data: 	
+		data:
 		{
 			bigkeys: [Boolean],
 			chestsopened: [Boolean],
