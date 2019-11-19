@@ -20,7 +20,8 @@ const TrackerSchema = mongoose.Schema(
 		}
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		collection: 'rooms'
 	}
 )
 

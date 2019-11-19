@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 const bodyParser = require('body-parser')
 
 // create express app
@@ -30,14 +31,18 @@ mongoose
 		process.exit()
 	})
 
-// define a simple route
-app.get('/', (req, res) => {
-	res.json({
-		message: ''
+//use sessions for tracking logins
+app.use(session({
+	secret: 'chocolate penguin',
+	resave: true,
+	saveUninitialized: false,
+	store: new MongoStore({
+		mongooseConnection: db
 	})
-})
+  }));
 
 require('./routes/tracker.routes.js')(app)
+require('./routes/user.routes.js')(app)
 
 // listen for requests
 app.listen(3000, () => {
