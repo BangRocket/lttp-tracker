@@ -9,7 +9,8 @@ import {
 	dungeonbeatenInit,
 	prizesInit,
 	medallionsInit,
-	defaultItemGrid
+	defaultItemGrid,
+	chestsopenedInit
 } from '../script/items.js'
 
 Vue.use(Vuex)

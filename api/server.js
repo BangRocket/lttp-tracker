@@ -1,6 +1,7 @@
 const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
+// const MongoStore = require('connect-mongo')
 
 // create express app
 const app = express()
@@ -31,15 +32,14 @@ mongoose
 		process.exit()
 	})
 
-//use sessions for tracking logins
-app.use(session({
-	secret: 'chocolate penguin',
-	resave: true,
-	saveUninitialized: false,
-	store: new MongoStore({
-		mongooseConnection: db
+// use sessions for tracking logins
+app.use(
+	session({
+		secret: 'chocolate penguin',
+		resave: true,
+		saveUninitialized: false
 	})
-  }));
+)
 
 require('./routes/tracker.routes.js')(app)
 require('./routes/user.routes.js')(app)
