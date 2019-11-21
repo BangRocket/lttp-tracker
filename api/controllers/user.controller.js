@@ -39,7 +39,7 @@ exports.create = async (req, res, next) => {
 				return next(err)
 			} else {
 				req.session.userId = user._id
-				res.send('success')
+				res.send('auth success')
 				// return res.redirect('/profile');
 			}
 		})
@@ -83,4 +83,18 @@ exports.logout = (req, res, next) => {
 			}
 		})
 	}
+}
+
+exports.login = (req, res, next) => {
+	User.findById(req.session.userId).exec(function (error, user) {
+		if (error) {
+			return next(error)
+		} else {
+			if (user === null) {
+				return false
+			} else {
+				return true
+			}
+		}
+	})
 }

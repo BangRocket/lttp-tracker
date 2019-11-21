@@ -36,7 +36,7 @@
 			:id="'bossMap' + index"
 			:key="'bossMap' + index"
 			:index="index"
-			:image="'url(./assets/bosses/' + item.image + ')'"
+			:image="'url(./assets/items/' + item.image + ')'"
 			:color="'black'"
 			:left="item.x"
 			:top="item.y"

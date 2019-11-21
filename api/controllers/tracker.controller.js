@@ -1,8 +1,15 @@
 const Room = require('../models/tracker.model.js')
+// const User = require('../models/user.model.js')
 const Items = require('../models/items.js')
 
 // Create and Save a new Note
 exports.create = (req, res) => {
+	if (req.session.userId === undefined || req.session.userId === null) {
+		return res.status(401).send({
+			message: 'not authorized'
+		})
+	}
+
 	// Validate request
 	if (!req.body) {
 		return res.status(400).send({
@@ -24,7 +31,7 @@ exports.create = (req, res) => {
 			editor: req.body.editor || '',
 			items: req.body.items || Items.itemsInit,
 			medallions: req.body.medallions || Items.medallionsInit,
-			owner: req.body.owner || '',
+			owner: req.session.userId || req.body.owner || '',
 			passcode: req.body.passcode || '',
 			prizes: req.body.prizes || Items.prizesInit,
 			smallkeys: req.body.smallkeys || Items.smallkeyInit
@@ -61,6 +68,12 @@ exports.create = (req, res) => {
 
 // Find a single note with a roomid
 exports.get = (req, res) => {
+	if (req.session.userId === undefined || req.session.userId === null) {
+		return res.status(401).send({
+			message: 'not authorized'
+		})
+	}
+
 	Room.find({ name: req.params.roomid })
 		.then((room) => {
 			if (!room) {
@@ -84,6 +97,11 @@ exports.get = (req, res) => {
 
 // Update a note identified by the noteId in the request
 exports.update = async (req, res) => {
+	if (req.session.userId === undefined || req.session.userId === null) {
+		return res.status(401).send({
+			message: 'not authorized'
+		})
+	}
 	// Validate Request
 	if (!req.body || !req.params) {
 		return res.status(400).send({
@@ -167,6 +185,12 @@ exports.update = async (req, res) => {
 
 // Delete a note with the specified noteId in the request
 exports.delete = (req, res) => {
+	if (req.session.userId === undefined || req.session.userId === null) {
+		return res.status(401).send({
+			message: 'not authorized'
+		})
+	}
+
 	Room.deleteOne({ name: req.params.roomid })
 		.then((room) => {
 			if (!room) {

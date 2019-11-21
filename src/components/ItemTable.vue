@@ -14,7 +14,7 @@
 				></div>
 				<ItemCell
 					v-for="(item, itemColumnIndex) in itemRow"
-					:key="itemColumnIndex + '-' + itemRowIndex"
+					:key="item"
 					:item-name="item"
 					:item-value="itemFor(item)"
 					:column-index="itemColumnIndex"

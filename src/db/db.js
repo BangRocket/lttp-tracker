@@ -1,7 +1,9 @@
 import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
 
+import { rtdbPlugin } from 'vuefire'
 import { store } from '../store/store.js'
 import {
 	itemsInit,
@@ -14,7 +16,7 @@ import {
 	chestsopenedInit
 } from '../script/items.js'
 
-Vue.use(VueAxios, axios)
+Vue.use(rtdbPlugin)
 
 var authAttempted = false
 

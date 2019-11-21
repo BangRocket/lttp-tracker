@@ -208,7 +208,7 @@ export var itemsMax = {
 	key10: 4
 }
 
-export var chestsopenedInit = [	
+export var chestsopenedInit = [
 	false, false, false, false, false,
 	false, false, false, false, false,
 	false, false, false, false, false,
