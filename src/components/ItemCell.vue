@@ -6,25 +6,37 @@
 		@contextmenu.prevent.stop="clickCellBack"
 	>
 		<span
-			v-if="dungeonLabel"
-			class="corner"
-			:style="{ display: 'block', position: 'absolute'}"
-		>{{ dungeonLabel }}</span>
-		<span
 			v-if="textCounter !== null"
 			class="textCounter"
 		>{{ textCounter }}</span>
 		<ItemCellOverlay
-			v-if="chestImage"
-			overlay-type="prize"
+			v-if="isLabel"
+			overlay-type="label"
+			location="top-left"
+			:reference="bossNum"
 		>
 		</ItemCellOverlay>
-		<!-- <span
-			v-if="chestImage"
-			:style="{ display: 'block', position: 'absolute', height: '32px', width: '32px', top: '32px', backgroundImage: chestImage }"
-			@click.stop="clickChestBack"
-			@contextmenu.prevent.stop="clickChestForward"
-		></span> -->
+		<ItemCellOverlay
+			v-if="isChest"
+			overlay-type="chest"
+			location="bottom-left"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
+		<ItemCellOverlay
+			v-if="isPrize"
+			overlay-type="prize"
+			location="bottom-right"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
+		<ItemCellOverlay
+			v-if="isMedallion"
+			overlay-type="medallion"
+			location="top-right"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
 		<span
 			v-if="bigKeyImage"
 			:style="{ display: 'block', position: 'absolute', height: '32px', width: '16px', top: '32px', backgroundImage: bigKeyImage }"
@@ -37,24 +49,10 @@
 			@click.stop="clickSmallKeyForward"
 			@contextmenu.prevent.stop="clickSmallKeyBack"
 		></span>
-		<span
-			v-if="prizeImage"
-			:class="'prize'"
-			:style="{ display: 'block', position: 'absolute', height: '32px', width: '32px', top: '32px', left: '32px', backgroundImage: prizeImage }"
-			@click.stop="clickPrizeForward"
-			@contextmenu.prevent.stop="clickPrizeBack"
-		></span>
-		<span
-			v-if="medallionImage"
-			:style="{ display: 'block', position: 'absolute', height: '32px', width: '32px', left: '32px', backgroundImage: medallionImage }"
-			@click.stop="clickMedallionForward"
-			@contextmenu.prevent.stop="clickMedallionBack"
-		></span>
 	</div>
 </template>
 
 <script>
-import { Locations } from '../script/chests.js'
 import { mapState } from 'vuex'
 import { store } from '../store/store.js'
 import { itemsMin, itemsMax } from '../script/items.js'
@@ -95,15 +93,15 @@ export default {
 		chestNum: function () {
 			return ''
 		},
-		dungeonLabel: function () {
+		isLabel: function () {
 			if (
 				this.bossNum &&
 				this.trackerOptions &&
 				this.trackerOptions.showlabels
 			) {
-				return Locations.data.dungeons[this.bossNum].label
+				return true
 			}
-			return null
+			return false
 		},
 		textCounter: function () {
 			if (this.name.indexOf('heart') === 0) {
@@ -132,19 +130,15 @@ export default {
 		isActive: function () {
 			return this.trackerOptions.editmode || this.value
 		},
-		chestImage: function () {
+		isChest: function () {
 			if (
 				this.bossNum &&
 				this.trackerOptions &&
 				this.trackerOptions.showchests
 			) {
-				return (
-					'url(./assets/chests/chest' +
-					this.chest +
-					'.png)'
-				)
+				return true
 			}
-			return null
+			return false
 		},
 		bigKeyImage: function () {
 			if (
@@ -180,34 +174,26 @@ export default {
 			}
 			return null
 		},
-		prizeImage: function () {
+		isPrize: function () {
 			if (
 				this.bossNum &&
 				this.bossNum !== '10' &&
 				this.trackerOptions &&
 				this.trackerOptions.showprizes
 			) {
-				return (
-					'url(./assets/dungeon/dungeon' +
-					this.prize +
-					'.png)'
-				)
+				return true
 			}
-			return null
+			return false
 		},
-		medallionImage: function () {
+		isMedallion: function () {
 			if (
 				(this.bossNum === '8' || this.bossNum === '9') &&
 				this.trackerOptions &&
 				this.trackerOptions.showmedals
 			) {
-				return (
-					'url(/assets/items/medallion' +
-					this.medallion +
-					'.png)'
-				)
+				return true
 			}
-			return null
+			return false
 		},
 		...mapState(['trackerData', 'trackerOptions', 'isRoomLoaded'])
 	},
@@ -261,36 +247,6 @@ export default {
 		clickCellBack: function (e) {
 			this.clickCell(-1)
 		},
-		clickMedallion: function (amt) {
-			// room
-			// 	.child('medallions')
-			// 	.child(this.bossNum)
-			// 	.set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4)
-			this.medallion = (this.medallion + amt + 4) % 4
-		},
-		clickMedallionForward: function (e) {
-			this.clickMedallion(1)
-		},
-		clickMedallionBack: function (e) {
-			this.clickMedallion(-1)
-		},
-		clickChest: function (amt) {
-			var chestitem = 'chest' + this.bossNum
-			var modamt = itemsMax[chestitem] + 1
-			var newVal =
-				(this.chest + amt + modamt) % modamt
-			// room
-			// 	.child('dungeonchests')
-			// 	.child(this.bossNum)
-			// 	.set(newVal)
-			this.chest = newVal
-		},
-		clickChestForward: function (e) {
-			this.clickChest(1)
-		},
-		clickChestBack: function (e) {
-			this.clickChest(-1)
-		},
 		clickBigKey: function (e) {
 			room
 				.child('bigkeys')
@@ -312,19 +268,6 @@ export default {
 		},
 		clickSmallKeyBack: function (e) {
 			this.clickSmallKey(-1)
-		},
-		clickPrize: function (amt) {
-			// room
-			// 	.child('prizes')
-			// 	.child(this.bossNum)
-			// 	.set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5)
-			this.prize = (this.prize + amt + 5) % 5
-		},
-		clickPrizeForward: function (e) {
-			this.clickPrize(1)
-		},
-		clickPrizeBack: function (e) {
-			this.clickPrize(-1)
 		}
 	}
 }
