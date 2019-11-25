@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
 	name: 'POI',
 	props: ['id', 'index', 'image', 'color', 'left', 'top', 'type', 'status'],
@@ -20,9 +22,16 @@ export default {
 				'background-image': this.image,
 				color: this.color,
 				left: this.left,
-				top: this.top
+				top: this.top,
+				isAvailable: 'np' // this is for a watcher
 			}
 		}
+	},
+	computed: {
+		...mapState(['trackerData', 'isRoomLoaded', 'worldData'])
+	},
+	watch: {
+
 	},
 	methods:
 	{
