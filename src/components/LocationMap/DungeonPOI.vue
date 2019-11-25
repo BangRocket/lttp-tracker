@@ -6,6 +6,8 @@
 		:class="['mapspan', type, status]"
 		@mouseover="highlight"
 		@mouseleave="unhighlight"
+		@click.prevent.stop="toggleChest"
+		@contextmenu.prevent.stop="toggleChest"
 	>
 	</div>
 </template>
@@ -14,8 +16,41 @@
 import { mapState } from 'vuex'
 
 export default {
-	name: 'POI',
-	props: ['id', 'index', 'image', 'color', 'left', 'top', 'type', 'status'],
+	name: 'DungeonPOI',
+	props: {
+		id: {
+			type: [String, Number],
+			default: -1
+		},
+		index: {
+			type: Number,
+			default: -1
+		},
+		image: {
+			type: String,
+			default: 'url(/assets/map/highlighted.png)'
+		},
+		color: {
+			type: String,
+			default: 'black'
+		},
+		left: {
+			type: String,
+			default: '0%'
+		},
+		top: {
+			type: String,
+			default: '0%'
+		},
+		type: {
+			type: String,
+			default: 'dungeon'
+		},
+		status: {
+			type: String,
+			default: 'available'
+		}
+	},
 	data () {
 		return {
 			style: {
@@ -23,51 +58,45 @@ export default {
 				color: this.color,
 				left: this.left,
 				top: this.top,
-				isAvailable: 'np' // this is for a watcher
+				type: this.type
 			}
 		}
 	},
 	computed: {
-		...mapState(['trackerData', 'isRoomLoaded', 'worldData'])
+		isAvailable () {
+			return this.dungeons[this.id.substring(7)].canGetChest()[this.trackerOptions.mapLogic]
+		},
+		chests () {
+			return this.worldData.chests
+		},
+		dungeons () {
+			return this.worldData.dungeons
+		},
+		...mapState(['trackerData', 'trackerOptions', 'worldData'])
 	},
 	watch: {
-
+		isAvailable: function (newVal, oldVal) {
+			console.log('Changed Dungeon Watcher! was: ', oldVal, ' is: ', newVal)
+		}
 	},
 	methods:
 	{
 		// Event of clicking a chest on the map
 		toggleChest: function (x) {
+			// const me = this.$refs[this.type + '-' + this.index].classList
+			// me.contains('opened') ? me.remove('opened') : me.add('opened')
 			// rootRef.child('chestsopened').child(x).set(!trackerData.chestsopened[x])
 		},
 		// Highlights a chest location and shows the name as caption
 		highlight: function (x) {
-			if (x.target.classList.contains('boss')) {
-				// handle highlight for bosses here
-				return
-			}
-
-			if (x.target.classList.contains('dungeon')) {
-				// handle highlight for dungeons here
-				this.$refs[this.type + '-' + this.index].style.backgroundImage = 'url(/assets/map/highlighted.png)'
-				return
-			}
-			x.target.style.backgroundImage = 'url(/assets/map/highlighted.png)'
-			// document.getElementById(x).style.backgroundImage = 'url(/assets/map/highlighted.png)';
+			// handle highlight for dungeons here
+			this.$refs[this.type + '-' + this.index].style.backgroundImage = 'url(/assets/map/highlighted.png)'
 			// document.getElementById('caption').innerHTML = chests[x].name
 		},
 		unhighlight: function (x) {
-			if (x.target.classList.contains('boss')) {
-				// handle highlight for bosses here
-				return
-			}
+			// handle highlight for dungeons here
+			this.$refs[this.type + '-' + this.index].style.backgroundImage = 'url(/assets/map/poi.png)'
 
-			if (x.target.classList.contains('dungeon')) {
-				// handle highlight for dungeons here
-				this.$refs[this.type + '-' + this.index].style.backgroundImage = 'url(/assets/map/poi.png)'
-				return
-			}
-			x.target.style.backgroundImage = 'url(/assets/map/poi.png)'
-			// document.getElementById(x).style.backgroundImage = 'url(/assets/map/poi.png)';
 			// document.getElementById('caption').innerHTML = '&nbsp;';
 		}
 	}

@@ -3,7 +3,7 @@
 		id="mapDiv"
 		class="mapDiv"
 	>
-		<POI
+		<ChestPOI
 			v-for="(item, index) in worldData.chests"
 			:id="index"
 			:key="index"
@@ -15,9 +15,9 @@
 			:type="'chest'"
 			:status="item.isAvailable().getClassName()"
 		>
-		</POI>
+		</ChestPOI>
 
-		<POI
+		<DungeonPOI
 			v-for="(item, index) in worldData.dungeons"
 			:id="'dungeon' + index"
 			:key="'dungeon' + index"
@@ -29,9 +29,9 @@
 			:type="'dungeon'"
 			:status="item.canGetChest().getClassName()"
 		>
-		</POI>
+		</DungeonPOI>
 
-		<POI
+		<BossMarker
 			v-for="(item, index) in locations.data.dungeons"
 			:id="'bossMap' + index"
 			:key="'bossMap' + index"
@@ -43,22 +43,23 @@
 			:type="'boss'"
 			:status="item.isBeatable().getClassName()"
 		>
-		</POI>
+		</BossMarker>
 	</div>
 </template>
 
 <script>
-// 	// s.onclick = new Function('toggleChest(' + k + ')')
-// 	// s.onmouseover = new Function('highlight(' + k + ')')
-// 	// s.onmouseout = new Function('unhighlight(' + k + ')')
 import { Locations } from '../../script/chests.js'
-import POI from './POI.vue'
+import ChestPOI from './ChestPOI.vue'
+import DungeonPOI from './DungeonPOI.vue'
+import BossMarker from './BossMarker.vue'
 import { mapState } from 'vuex'
 
 export default {
 	name: 'WorldMap',
 	components: {
-		POI
+		ChestPOI,
+		DungeonPOI,
+		BossMarker
 	},
 	data () {
 		return {
@@ -66,18 +67,18 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(['trackerData', 'isRoomLoaded', 'worldData']),
-		getItems: function () {
-			return this.trackerData.items
-		}
+		...mapState(['trackerData', 'isRoomLoaded', 'worldData'])
+		// ,getItems: function () {
+		// 	return this.trackerData.items
+		// }
 	},
 	watch: {
-		getItems: {
-			deep: true,
-			handler (newVal, oldVal) {
-				console.log('n', newVal, oldVal)
-			}
-		}
+		// getItems: {
+		// 	deep: true,
+		// 	handler (newVal, oldVal) {
+		// 		console.log('n', newVal, oldVal)
+		// 	}
+		// }
 	},
 	methods: {
 

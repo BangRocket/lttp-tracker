@@ -8,10 +8,10 @@
 				v-for="(itemRow, itemRowIndex) in records.itemRows"
 				:key="itemRowIndex"
 			>
-				<div
+				<!-- <div
 					:style="{ width: (maxRowLength - itemRow.length) * 32 + 'px', display:'inline-block' }"
 					class="rowSpacer"
-				></div>
+				></div> -->
 				<ItemCell
 					v-for="(item, itemColumnIndex) in itemRow"
 					:key="(item === 'blank' ? item + itemColumnIndex : item)"
@@ -76,12 +76,6 @@ export default {
 	},
 	methods: {
 		itemFor: function (itemName) {
-			// if (this.isRoomLoaded) {
-			// 	if (this.itemData) {
-			// 		return this.itemData[itemName]
-			// 	}
-			// }
-
 			if (!this.trackerData || !this.trackerData.items) {
 				return null
 			}

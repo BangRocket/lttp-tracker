@@ -199,21 +199,11 @@ export default {
 	},
 	watch: {
 		value: function (newVal, oldVal) {
-			console.log(newVal, oldVal, this.type())
+			console.log(this.type(), 'changed -', this.name, '. was: ', oldVal, ' is: ', newVal)
 			if (this.type() === 'boss') {
-				this.trackerData.dungeonbeaten[this.bossNum] = !this.trackerData.dungeonbeaten[this.bossNum]
-				// room
-				// 	.child('dungeonbeaten')
-				// 	.child(this.bossnum)
-				// 	.set(!this.trackerdata.dungeonbeaten[this.bossnum])
+				this.trackerData.dungeonbeaten.splice(this.bossNum, 1, !this.trackerData.dungeonbeaten[this.bossNum])
 			}
-			// room
-			// 	.child('items')
-			// 	.child(this.name)
-			// 	.set(this.value)
-			console.log(this.trackerData.items[this.name])
 			this.trackerData.items[this.name] = this.value
-			console.log(this.trackerData.items[this.name])
 		}
 	},
 	methods: {
