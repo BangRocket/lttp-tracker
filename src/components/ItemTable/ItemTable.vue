@@ -46,8 +46,9 @@
 </template>
 
 <script>
-import { store } from '../store/store.js'
-import ItemCell from '../components/ItemCell.vue'
+import { store } from '../../store/store.js'
+import { room } from '../../db/db.js'
+import ItemCell from './ItemCell.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -55,7 +56,8 @@ export default {
 	components: { ItemCell },
 	data () {
 		return {
-			records: store.state
+			records: store.state,
+			itemData: this.getItemData()
 		}
 	},
 	computed: {
@@ -70,14 +72,30 @@ export default {
 						return Math.max(a, b)
 					})
 		},
-		...mapState(['trackerData', 'itemRows'])
+		...mapState(['trackerData', 'itemRows', 'isRoomLoaded'])
 	},
 	methods: {
 		itemFor: function (itemName) {
+			// if (this.isRoomLoaded) {
+			// 	if (this.itemData) {
+			// 		return this.itemData[itemName]
+			// 	}
+			// }
+
 			if (!this.trackerData || !this.trackerData.items) {
 				return null
 			}
+			// console.log(this.itemData)
+			// console.log(this.trackerData.items[itemName])
 			return this.trackerData.items[itemName]
+		},
+		getItemData: async function () {
+			var check = await room.child('items').once('value')
+			// console.log(check.val())
+			if (!(check.val() === null)) {
+				return check.val()
+			}
+			return this.trackerData.items
 		},
 		addRow: function (e) {
 			this.itemRows.push(['blank'])

@@ -297,8 +297,8 @@
 </template>
 
 <script>
-import ItemTable from '../components/ItemTable.vue'
-import WorldMap from '../components/WorldMap.vue'
+import ItemTable from '../components/ItemTable/ItemTable.vue'
+import WorldMap from '../components/LocationMap/LocationMap.vue'
 
 import { mapState } from 'vuex'
 import { store } from '../store/store.js'

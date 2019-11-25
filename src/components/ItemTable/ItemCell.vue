@@ -54,11 +54,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import { store } from '../store/store.js'
-import { itemsMin, itemsMax } from '../script/items.js'
-import { room } from '../db/db.js'
+import { store } from '../../store/store.js'
+import { itemsMin, itemsMax } from '../../script/items.js'
+import { room } from '../../db/db.js'
 
-import ItemCellOverlay from '../components/ItemCellOverlay.vue'
+import ItemCellOverlay from './ItemCellOverlay.vue'
 
 export default {
 	name: 'ItemCell',
@@ -199,7 +199,21 @@ export default {
 	},
 	watch: {
 		value: function (newVal, oldVal) {
-			console.log(newVal, oldVal, this.type(), this.prize)
+			console.log(newVal, oldVal, this.type())
+			if (this.type() === 'boss') {
+				this.trackerData.dungeonbeaten[this.bossNum] = !this.trackerData.dungeonbeaten[this.bossNum]
+				// room
+				// 	.child('dungeonbeaten')
+				// 	.child(this.bossnum)
+				// 	.set(!this.trackerdata.dungeonbeaten[this.bossnum])
+			}
+			// room
+			// 	.child('items')
+			// 	.child(this.name)
+			// 	.set(this.value)
+			console.log(this.trackerData.items[this.name])
+			this.trackerData.items[this.name] = this.value
+			console.log(this.trackerData.items[this.name])
 		}
 	},
 	methods: {
@@ -207,7 +221,6 @@ export default {
 			return this.bossNum === null ? 'item' : 'boss'
 		},
 		clickCell: function (amt) {
-			console.log(this.boss, this.type)
 			if (this.trackerOptions.editmode) {
 				store.commit('updateRows', this.rowIndex, this.columnIndex, this.trackerOptions.selected.item || 'blank')
 			}
