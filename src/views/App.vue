@@ -5,8 +5,6 @@
 </template>
 
 <script>
-// import { db } from './firebase/firebase.js'
-
 export default {
 	name: 'App',
 	components: {

@@ -48,14 +48,14 @@
 </template>
 
 <script>
-import { Locations } from '../../script/chests.js'
+import { Locations } from '../script/chests.js'
 import ChestPOI from './ChestPOI.vue'
 import DungeonPOI from './DungeonPOI.vue'
 import BossMarker from './BossMarker.vue'
 import { mapState } from 'vuex'
 
 export default {
-	name: 'WorldMap',
+	name: 'LocationMap',
 	components: {
 		ChestPOI,
 		DungeonPOI,
@@ -88,8 +88,8 @@ export default {
 
 <style>
 .mapDiv {
-	background-size: 100% 100%;
-	background: url('../../assets/map.png') no-repeat;
+	background-size: 100%;
+	background: url('../assets/map.png') no-repeat;
 
 	position: relative;
 	width: 884px;

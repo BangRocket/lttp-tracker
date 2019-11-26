@@ -9,8 +9,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { Locations } from '../../script/chests.js'
-import { itemsMax } from '../../script/items.js'
+import { Locations } from '../script/chests.js'
+import { itemsMax } from '../script/items.js'
 
 export default {
 	name: 'ItemCellOverlay',

@@ -54,9 +54,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { store } from '../../store/store.js'
-import { itemsMin, itemsMax } from '../../script/items.js'
-import { room } from '../../db/db.js'
+import { store } from '../store/store.js'
+import { itemsMin, itemsMax } from '../script/items.js'
+import { room } from '../db/db.js'
 
 import ItemCellOverlay from './ItemCellOverlay.vue'
 

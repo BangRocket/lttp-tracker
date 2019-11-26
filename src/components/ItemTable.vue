@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import { store } from '../../store/store.js'
-import { room } from '../../db/db.js'
+import { store } from '../store/store.js'
+import { room } from '../db/db.js'
 import ItemCell from './ItemCell.vue'
 import { mapState } from 'vuex'
 
