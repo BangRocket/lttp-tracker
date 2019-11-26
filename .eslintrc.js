@@ -13,5 +13,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+		"vue/html-self-closing": "off",
+		"no-new":"off"
   }
 }
