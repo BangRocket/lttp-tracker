@@ -82,6 +82,20 @@ export default {
 		},
 		...mapState(['trackerData', 'trackerOptions'])
 	},
+	watch: {
+		value () {
+			console.log('wather')
+			switch (this.type) {
+			case 'chest':
+				this.trackerData.dungeonchests[this.reference] = this.value
+				break
+			case 'prize':
+				break
+			case 'medallion':
+				break
+			}
+		}
+	},
 	methods: {
 		getBackgroundImage: function (type) {
 			switch (type) {

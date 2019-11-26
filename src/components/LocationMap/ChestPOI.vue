@@ -55,6 +55,7 @@ export default {
 		return {
 			style: {
 				'background-image': this.image,
+				'background-color': '',
 				color: this.color,
 				left: this.left,
 				top: this.top,
@@ -76,6 +77,9 @@ export default {
 
 			return this.chests[this.id].isAvailable()[this.trackerOptions.mapLogic]
 		},
+		openCount () {
+			return this.trackerData.dungeonchests[this.id]
+		},
 		chests () {
 			return this.worldData.chests
 		},
@@ -87,6 +91,12 @@ export default {
 	watch: {
 		isAvailable: function (newVal, oldVal) {
 			console.log('Changed Chest Watcher! was: ', oldVal, ' is: ', newVal)
+			// newVal <= 0 ? this.style['background-color'] = 'rgb(127, 127, 127)' : this.style['background-color'] = ''
+		},
+		openCount: function (newVal, oldVal) {
+			console.log('Changed Chest Counter Watcher! was: ', oldVal, ' is: ', newVal)
+			console.log(this)
+			newVal <= 0 ? this.style['background-color'] = 'rgb(127, 127, 127)' : this.style['background-color'] = ''
 		}
 	},
 	methods:

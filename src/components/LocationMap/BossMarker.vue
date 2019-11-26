@@ -55,6 +55,7 @@ export default {
 		return {
 			style: {
 				'background-image': this.image,
+				'background-color': '',
 				color: this.color,
 				left: this.left,
 				top: this.top,
@@ -80,18 +81,15 @@ export default {
 	watch: {
 		isDefeated: function (newVal, oldVal) {
 			console.log('Changed Boss Watcher! was: ', oldVal, ' is: ', newVal)
-			newVal ? this.classes = [
-				'mapspan',
-				this.type,
-				this.status
-			] : this.classes.push('opened')
-			console.log(this.classes)
+			newVal ? this.style['background-color'] = 'rgb(127, 127, 127)' : this.style['background-color'] = ''
 		}
 	},
 	methods:
 	{
 		// Event of clicking a chest on the map
-		toggleChest: function (x) { },
+		toggleChest: function (x) {
+			// this.dungeons[this.id.substring(7)] = !this.dungeons[this.id.substring(7)]
+		},
 		// Highlights a chest location and shows the name as caption
 		highlight: function (x) { },
 		unhighlight: function (x) {	}
