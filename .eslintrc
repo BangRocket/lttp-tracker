@@ -14,15 +14,14 @@
     },
     "parserOptions": {
         "ecmaVersion": 2018,
-        "sourceType": "module",
-        "parser": "babel-eslint"
+        "sourceType": "module"
     },
     "plugins": [
         "vue"
     ],
     "rules": {
 		"vue/html-indent": [
-			"error", "tab",
+			"error", "tab"
 		],
 		"vue/html-self-closing": "off",
 		"no-tabs":"off",

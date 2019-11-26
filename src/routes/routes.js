@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import TrackerPage from '../components/TrackerPage.vue'
-import LandingPage from '../components/LandingPage.vue'
+import TrackerPage from '../views/TrackerPage.vue'
+import LandingPage from '../views/LandingPage.vue'
 
 Vue.use(VueRouter)
 

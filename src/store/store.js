@@ -12,6 +12,7 @@ import {
 	defaultItemGrid,
 	chestsopenedInit
 } from '../script/items.js'
+import { Locations } from '../script/chests.js'
 
 Vue.use(Vuex)
 
@@ -30,6 +31,10 @@ export var store = new Vuex.Store({
 			medallions: medallionsInit,
 			chestsopened: chestsopenedInit
 		},
+		worldData: {
+			dungeons: Locations.data.dungeons,
+			chests: Locations.data.chests
+		},
 		trackerOptions: {
 			showchests: true,
 			showbigkeys: false,
@@ -43,6 +48,21 @@ export var store = new Vuex.Store({
 			selected: {}
 		},
 		displayVueMap: false
+	},
+	getters: {
+		getItems: state => {
+			return state.trackerData.items
+		},
+		getOptions: state => {
+			return state.trackerOptions
+		},
+		getData: state => {
+			return state.trackerData
+		},
+		getItemByName: (state, getters) => (id) => {
+			console.log(state, getters, id)
+			// return state.movies.find(movie => movie.id === id)
+		}
 	},
 	mutations: {
 		updateTrackerData (state, payload) {

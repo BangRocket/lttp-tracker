@@ -6,20 +6,37 @@
 		@contextmenu.prevent.stop="clickCellBack"
 	>
 		<span
-			v-if="dungeonLabel"
-			class="corner"
-			:style="{ display: 'block', position: 'absolute'}"
-		>{{ dungeonLabel }}</span>
-		<span
 			v-if="textCounter !== null"
 			class="textCounter"
 		>{{ textCounter }}</span>
-		<span
-			v-if="chestImage"
-			:style="{ display: 'block', position: 'absolute', height: '32px', width: '32px', top: '32px', backgroundImage: chestImage }"
-			@click.stop="clickChestBack"
-			@contextmenu.prevent.stop="clickChestForward"
-		></span>
+		<ItemCellOverlay
+			v-if="isLabel"
+			overlay-type="label"
+			location="top-left"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
+		<ItemCellOverlay
+			v-if="isChest"
+			overlay-type="chest"
+			location="bottom-left"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
+		<ItemCellOverlay
+			v-if="isPrize"
+			overlay-type="prize"
+			location="bottom-right"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
+		<ItemCellOverlay
+			v-if="isMedallion"
+			overlay-type="medallion"
+			location="top-right"
+			:reference="bossNum"
+		>
+		</ItemCellOverlay>
 		<span
 			v-if="bigKeyImage"
 			:style="{ display: 'block', position: 'absolute', height: '32px', width: '16px', top: '32px', backgroundImage: bigKeyImage }"
@@ -32,93 +49,96 @@
 			@click.stop="clickSmallKeyForward"
 			@contextmenu.prevent.stop="clickSmallKeyBack"
 		></span>
-		<span
-			v-if="prizeImage"
-			:class="'prize'"
-			:style="{ display: 'block', position: 'absolute', height: '32px', width: '32px', top: '32px', left: '32px', backgroundImage: prizeImage }"
-			@click.stop="clickPrizeForward"
-			@contextmenu.prevent.stop="clickPrizeBack"
-		></span>
-		<span
-			v-if="medallionImage"
-			:style="{ display: 'block', position: 'absolute', height: '32px', width: '32px', left: '32px', backgroundImage: medallionImage }"
-			@click.stop="clickMedallionForward"
-			@contextmenu.prevent.stop="clickMedallionBack"
-		></span>
 	</div>
 </template>
 
 <script>
-import { Locations } from '../script/chests.js'
 import { mapState } from 'vuex'
 import { store } from '../store/store.js'
 import { itemsMin, itemsMax } from '../script/items.js'
+import { room } from '../db/db.js'
+
+import ItemCellOverlay from './ItemCellOverlay.vue'
 
 export default {
 	name: 'ItemCell',
+	components: {
+		ItemCellOverlay
+	},
 	props: [
 		'itemValue',
 		'itemName',
 		'columnIndex',
 		'rowIndex'
 	],
+	data: function () {
+		return {
+			value: this.itemValue,
+			name: this.itemName,
+			boss: this.bossNum,
+			prize: 0,
+			medallion: 0,
+			chest: 1,
+			keys: 0
+		}
+	},
 	computed: {
 		bossNum: function () {
-			if (this.itemName.indexOf('boss') === -1) {
+			// console.log(this.name, this.name.indexOf('boss'), this.name.substring(4))
+			if (this.name.indexOf('boss') === -1) {
 				return null
 			}
-			return this.itemName.substring(4)
+			return this.name.substring(4)
 		},
-		dungeonLabel: function () {
+		chestNum: function () {
+			return ''
+		},
+		isLabel: function () {
 			if (
 				this.bossNum &&
 				this.trackerOptions &&
 				this.trackerOptions.showlabels
 			) {
-				return Locations.data.dungeons[this.bossNum].label
+				return true
 			}
-			return null
+			return false
 		},
 		textCounter: function () {
-			if (this.itemName.indexOf('heart') === 0) {
-				return this.itemValue
+			if (this.name.indexOf('heart') === 0) {
+				return this.value
 			}
 			return null
 		},
 		backgroundImage: function () {
 			// TODO: move bosses into separate folder
-			if (this.itemName === 'blank') {
+			if (this.name === 'blank') {
 				return this.trackerOptions.editmode ? 'url(./assets/items/blank.png)' : 'none'
-			} else if (typeof this.itemValue === 'boolean') {
-				return 'url(./assets/items/' + this.itemName + '.png)'
+			} else if (typeof this.value === 'boolean') {
+				return 'url(./assets/items/' + this.name + '.png)'
 			} else if (this.textCounter !== null) {
-				return 'url(./assets/items/' + this.itemName + '.png)'
+				return 'url(./assets/items/' + this.name + '.png)'
 			}
 			return (
 				'url(./assets/items/' +
-				this.itemName +
+				this.name +
 				(this.trackerOptions.editmode
-					? itemsMax[this.itemName]
-					: this.itemValue || '0') +
+					? itemsMax[this.name]
+					: this.value || '0') +
 				'.png)'
 			)
 		},
 		isActive: function () {
-			return this.trackerOptions.editmode || this.itemValue
+			return this.trackerOptions.editmode || this.value
 		},
-		chestImage: function () {
+		isChest: function () {
 			if (
 				this.bossNum &&
 				this.trackerOptions &&
 				this.trackerOptions.showchests
 			) {
-				return (
-					'url(./assets/chests/chest' +
-					this.trackerData.dungeonchests[this.bossNum] +
-					'.png)'
-				)
+				return true
 			}
-			return null
+			return false
 		},
 		bigKeyImage: function () {
 			if (
@@ -154,38 +174,42 @@ export default {
 			}
 			return null
 		},
-		prizeImage: function () {
+		isPrize: function () {
 			if (
 				this.bossNum &&
 				this.bossNum !== '10' &&
 				this.trackerOptions &&
 				this.trackerOptions.showprizes
 			) {
-				return (
-					'url(./assets/chests' +
-					this.trackerData.prizes[this.bossNum] +
-					'.png)'
-				)
+				return true
 			}
-			return null
+			return false
 		},
-		medallionImage: function () {
+		isMedallion: function () {
 			if (
 				(this.bossNum === '8' || this.bossNum === '9') &&
 				this.trackerOptions &&
 				this.trackerOptions.showmedals
 			) {
-				return (
-					'url(/assets/items/medallion' +
-					this.trackerData.medallions[this.bossNum] +
-					'.png)'
-				)
+				return true
 			}
-			return null
+			return false
 		},
 		...mapState(['trackerData', 'trackerOptions', 'isRoomLoaded'])
 	},
+	watch: {
+		value: function (newVal, oldVal) {
+			console.log(this.type(), 'changed -', this.name, '. was: ', oldVal, ' is: ', newVal)
+			if (this.type() === 'boss') {
+				this.trackerData.dungeonbeaten.splice(this.bossNum, 1, !this.trackerData.dungeonbeaten[this.bossNum])
+			}
+			this.trackerData.items[this.name] = this.value
+		}
+	},
 	methods: {
+		type: function () {
+			return this.bossNum === null ? 'item' : 'boss'
+		},
 		clickCell: function (amt) {
 			if (this.trackerOptions.editmode) {
 				store.commit('updateRows', this.rowIndex, this.columnIndex, this.trackerOptions.selected.item || 'blank')
@@ -193,28 +217,31 @@ export default {
 			// Non-edit mode clicks
 			if (this.bossNum) {
 				// Do both this and the below for bosses
-				// rootRef
-				// 	.child("dungeonbeaten")
-				// 	.child(this.bossNum)
-				// 	.set(!this.trackerData.dungeonbeaten[this.bossNum]);
+				// room
+				// 	.child('dungeonbeaten')
+				// 	.child(this.bossnum)
+				// 	.set(!this.trackerdata.dungeonbeaten[this.bossnum])
 			}
-			if (typeof this.itemValue === 'boolean') {
-				// rootRef
-				// 	.child("items")
-				// 	.child(this.itemName)
-				// 	.set(!this.itemValue);
+
+			if (typeof this.value === 'boolean') {
+				// room
+				// 	.child('items')
+				// 	.child(this.name)
+				// 	.set(!this.value)
+				this.value = !this.value
 			} else {
-				var newVal = (this.itemValue || 0) + amt
-				if (newVal > itemsMax[this.itemName]) {
-					newVal = itemsMin[this.itemName]
+				var newVal = (this.value || 0) + amt
+				if (newVal > itemsMax[this.name]) {
+					newVal = itemsMin[this.name]
 				}
-				if (newVal < itemsMin[this.itemName]) {
-					newVal = itemsMax[this.itemName]
+				if (newVal < itemsMin[this.name]) {
+					newVal = itemsMax[this.name]
 				}
-				// rootRef
-				// 	.child("items")
-				// 	.child(this.itemName)
-				// 	.set(newVal);
+				// room
+				// 	.child('items')
+				// 	.child(this.name)
+				// 	.set(newVal)
+				this.value = newVal
 			}
 		},
 		clickCellForward: function (e) {
@@ -223,67 +250,27 @@ export default {
 		clickCellBack: function (e) {
 			this.clickCell(-1)
 		},
-		clickMedallion: function (amt) {
-			// rootRef
-			// 	.child('medallions')
-			// 	.child(this.bossNum)
-			// 	.set((this.trackerData.medallions[this.bossNum] + amt + 4) % 4);
-		},
-		clickMedallionForward: function (e) {
-			this.clickMedallion(1)
-		},
-		clickMedallionBack: function (e) {
-			this.clickMedallion(-1)
-		},
-		clickChest: function (amt) {
-			// var chestitem = 'chest' + this.bossNum
-			// var modamt = itemsMax[chestitem] + 1
-			// var newVal =
-			// 	(this.trackerData.dungeonchests[this.bossNum] + amt + modamt) % modamt
-			// rootRef
-			// 	.child("dungeonchests")
-			// 	.child(this.bossNum)
-			// 	.set(newVal);
-		},
-		clickChestForward: function (e) {
-			this.clickChest(1)
-		},
-		clickChestBack: function (e) {
-			this.clickChest(-1)
-		},
 		clickBigKey: function (e) {
-			// rootRef
-			// 	.child("bigkeys")
-			// 	.child(this.bossNum)
-			// 	.set(!this.trackerData.bigkeys[this.bossNum]);
+			room
+				.child('bigkeys')
+				.child(this.bossNum)
+				.set(!this.trackerData.bigkeys[this.bossNum])
 		},
 		clickSmallKey: function (amt) {
-			// var keyitem = 'key' + this.bossNum
-			// var modamt = itemsMax[keyitem] + 1
-			// var newVal =
-			// 	(this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt
-			// rootRef
-			// 	.child("smallkeys")
-			// 	.child(this.bossNum)
-			// 	.set(newVal);
+			var keyitem = 'key' + this.bossNum
+			var modamt = itemsMax[keyitem] + 1
+			var newVal =
+				(this.trackerData.smallkeys[this.bossNum] + amt + modamt) % modamt
+			room
+				.child('smallkeys')
+				.child(this.bossNum)
+				.set(newVal)
 		},
 		clickSmallKeyForward: function (e) {
 			this.clickSmallKey(1)
 		},
 		clickSmallKeyBack: function (e) {
 			this.clickSmallKey(-1)
-		},
-		clickPrize: function (amt) {
-			// rootRef
-			// 	.child("prizes")
-			// 	.child(this.bossNum)
-			// 	.set((this.trackerData.prizes[this.bossNum] + amt + 5) % 5)
-		},
-		clickPrizeForward: function (e) {
-			this.clickPrize(1)
-		},
-		clickPrizeBack: function (e) {
-			this.clickPrize(-1)
 		}
 	}
 }

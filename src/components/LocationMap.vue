@@ -3,8 +3,8 @@
 		id="mapDiv"
 		class="mapDiv"
 	>
-		<POI
-			v-for="(item, index) in locations.data.chests"
+		<ChestPOI
+			v-for="(item, index) in worldData.chests"
 			:id="index"
 			:key="index"
 			:index="index"
@@ -15,10 +15,10 @@
 			:type="'chest'"
 			:status="item.isAvailable().getClassName()"
 		>
-		</POI>
+		</ChestPOI>
 
-		<POI
-			v-for="(item, index) in locations.data.dungeons"
+		<DungeonPOI
+			v-for="(item, index) in worldData.dungeons"
 			:id="'dungeon' + index"
 			:key="'dungeon' + index"
 			:index="index"
@@ -29,50 +29,67 @@
 			:type="'dungeon'"
 			:status="item.canGetChest().getClassName()"
 		>
-		</POI>
+		</DungeonPOI>
 
-		<POI
+		<BossMarker
 			v-for="(item, index) in locations.data.dungeons"
 			:id="'bossMap' + index"
 			:key="'bossMap' + index"
 			:index="index"
-			:image="'url(./assets/bosses/' + item.image + ')'"
+			:image="'url(./assets/items/' + item.image + ')'"
 			:color="'black'"
 			:left="item.x"
 			:top="item.y"
 			:type="'boss'"
 			:status="item.isBeatable().getClassName()"
 		>
-		</POI>
+		</BossMarker>
 	</div>
 </template>
 
 <script>
-// 	// s.onclick = new Function('toggleChest(' + k + ')')
-// 	// s.onmouseover = new Function('highlight(' + k + ')')
-// 	// s.onmouseout = new Function('unhighlight(' + k + ')')
 import { Locations } from '../script/chests.js'
-import POI from './POI.vue'
+import ChestPOI from './ChestPOI.vue'
+import DungeonPOI from './DungeonPOI.vue'
+import BossMarker from './BossMarker.vue'
+import { mapState } from 'vuex'
 
 export default {
-	name: 'WorldMap',
+	name: 'LocationMap',
 	components: {
-		POI
+		ChestPOI,
+		DungeonPOI,
+		BossMarker
 	},
 	data () {
 		return {
 			locations: Locations
 		}
 	},
+	computed: {
+		...mapState(['trackerData', 'isRoomLoaded', 'worldData'])
+		// ,getItems: function () {
+		// 	return this.trackerData.items
+		// }
+	},
+	watch: {
+		// getItems: {
+		// 	deep: true,
+		// 	handler (newVal, oldVal) {
+		// 		console.log('n', newVal, oldVal)
+		// 	}
+		// }
+	},
 	methods: {
+
 	}
 }
 </script>
 
 <style>
 .mapDiv {
-	background-size: 100% 100%;
-	background: url("../assets/map.png") no-repeat;
+	background-size: 100%;
+	background: url('../assets/map.png') no-repeat;
 
 	position: relative;
 	width: 884px;

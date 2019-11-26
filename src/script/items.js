@@ -1,14 +1,15 @@
 export var defaultItemGrid = [
 	[
 		'bow',
+		'silvers',
 		'hookshot',
 		'hammer',
 		'firerod',
-		'glove',
-		'moonpearl'
+		'icerod',
+		'glove'
 	],
 	[
-		'somaria',
+		'moonpearl',
 		'lantern',
 		'flute',
 		'book',
@@ -31,25 +32,26 @@ export var defaultItemGrid = [
 		'powder',
 		'bottle',
 		'cape',
-		'icerod',
-		'silvers'
+		'somaria',
+		'agahnim'
 	],
 	[
+		'blank',
 		'boss3',
 		'boss4',
 		'boss5',
 		'boss6',
-		'boss7',
-		'boss8',
-		'boss9'
+		'boss7'
+
 	],
 	[
 		'blank',
 		'boss0',
 		'boss1',
 		'boss2',
-		'agahnim',
-		'blank'
+		'boss8',
+		'boss9'
+
 	]
 ]
 
@@ -208,7 +210,7 @@ export var itemsMax = {
 	key10: 4
 }
 
-export var chestsopenedInit = [	
+export var chestsopenedInit = [
 	false, false, false, false, false,
 	false, false, false, false, false,
 	false, false, false, false, false,

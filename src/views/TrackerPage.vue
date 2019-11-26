@@ -39,7 +39,7 @@
 			>
 				<ItemTable v-if="isRoomLoaded"></ItemTable>
 			</div>
-			<WorldMap v-if="!showMap && isRoomLoaded"></WorldMap>
+			<LocationMap v-if="!showMap && isRoomLoaded"></LocationMap>
 		</div>
 
 		<!-- Setting panel-->
@@ -297,8 +297,8 @@
 </template>
 
 <script>
-import ItemTable from './ItemTable.vue'
-import WorldMap from './WorldMap.vue'
+import ItemTable from '../components/ItemTable.vue'
+import LocationMap from '../components/LocationMap.vue'
 
 import { mapState } from 'vuex'
 import { store } from '../store/store.js'
@@ -307,7 +307,7 @@ import { initRoom, room } from '../db/db.js'
 export default {
 	components: {
 		ItemTable,
-		WorldMap
+		LocationMap
 	},
 	data () {
 		return {
