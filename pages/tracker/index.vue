@@ -1,5 +1,10 @@
 <template>
   <div>
+    <h1
+      v-if="!test"
+    >
+      test
+    </h1>
     <div
       v-if="!isRoomLoaded"
       id="createRoomPanel"
@@ -52,7 +57,7 @@
 // import ItemTable from '../components/ItemTable.vue'
 // import LocationMap from '../components/LocationMap.vue'
 
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 // import { store } from '../store/store.js'
 // import { initRoom, room } from '../db/db.js'
 
@@ -65,7 +70,8 @@ export default {
     return {
       settingsVisible: false,
       showMap: false,
-      roomID: this.$route.params.id
+      roomID: this.$route.params.id,
+      test: this.settings.showchests
     }
   },
   computed: {
@@ -107,8 +113,10 @@ export default {
     showLabel () { },
     showTracker () {
       this.showMap = !this.showMap
-    }
+    },
+    ...mapState(['settings'])
   }
+  // middleware: ['auth']
 }
 </script>
 
