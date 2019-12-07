@@ -1,7 +1,7 @@
 {
-  "name": "lttp-tracker",
+  "name": "jorsh-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Link to the Past Randomizer Tracker",
   "author": "Joshua Heidorn",
   "private": true,
   "scripts": {
@@ -14,12 +14,13 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.8.4",
     "@nuxtjs/axios": "^5.8.0",
-    "element-ui": "^2.13.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "nuxt-material-design-icons": "^1.0.4"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.1.0",
+    "@nuxtjs/vuetify": "^1.9.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.1",
     "eslint-plugin-nuxt": "^0.5.0"

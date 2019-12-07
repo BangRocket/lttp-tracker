@@ -120,7 +120,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   background-color: rgb(0, 0, 0);
   margin: 0;
