@@ -1,26 +1,28 @@
 <template>
-  <tr>
-    <td>
-      {{ id }}
-    </td>
-    <td>
-      {{ name }}
-    </td>
-    <td>
-      {{ reqs }}
-    </td>
-    <td>
-      {{ isOpened }}
-    </td>
-    <td>
-      {{ isAvailable() }}
-    </td>
-    <td>
-      <button type="button">
-        toggle state
-      </button>
-    </td>
-  </tr>
+  <tbody>
+    <tr>
+      <td>
+        {{ id }}
+      </td>
+      <td>
+        {{ name }}
+      </td>
+      <td>
+        {{ requirements() }}
+      </td>
+      <td>
+        {{ isOpened }}
+      </td>
+      <td>
+        {{ isAvailable() }}
+      </td>
+      <td>
+        <button type="button">
+          toggle state
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </template>
 
 <script>
@@ -37,15 +39,15 @@ export default {
     },
     reqs: {
       type: [String],
-      default: '{}'
+      default: '[{"name":"thing"}]'
     },
     x: {
-      type: [Number],
-      default: 0
+      type: [String],
+      default: '0px'
     },
     y: {
-      type: [Number],
-      default: 0
+      type: [String],
+      default: '0px'
     }
   },
   data () {
@@ -54,9 +56,16 @@ export default {
       isOpened: false
     }
   },
+  computed: {
+
+  },
   methods: {
     isAvailable () {
       return false
+    },
+    requirements () {
+      // console.log(JSON.parse(this.reqs))
+      return '[]' // JSON.parse(this.reqs)
     }
   }
 }

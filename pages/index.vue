@@ -2,7 +2,7 @@
   <div>
     Logic Checker 0.0.1
     <br />
-    <itemTable :column-list="test"></itemTable>
+    <itemTable :column-list="logicColumns"></itemTable>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   },
   data () {
     return {
-      test: JSON.stringify([
+      logicColumns: JSON.stringify([
         {
           id: 'id',
           name: 'ID',
