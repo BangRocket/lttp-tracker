@@ -6,6 +6,8 @@
 				<h1>test</h1>
 			</router-link>
 		</li>
+		<br>
+		<WorldMap></WorldMap>
 
 		<hr>
 
@@ -194,8 +196,13 @@
 </template>
 
 <script>
+import WorldMap from '../components/WorldMap.vue'
+
 export default {
-	name: 'LandingPage'
+	name: 'LandingPage',
+	components: {
+		WorldMap
+	}
 }
 </script>
 

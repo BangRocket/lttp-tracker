@@ -7,6 +7,7 @@ import { store } from './store/store.js'
 import App from './views/App.vue'
 
 Vue.config.productionTip = false
+Vue.use(require('vue-easeljs'))
 
 new Vue({
 	data: {},
