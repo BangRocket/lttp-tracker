@@ -50,13 +50,13 @@ export var store = new Vuex.Store({
 		displayVueMap: false
 	},
 	getters: {
-		getItems: state => {
+		getItems: (state) => {
 			return state.trackerData.items
 		},
-		getOptions: state => {
+		getOptions: (state) => {
 			return state.trackerOptions
 		},
-		getData: state => {
+		getData: (state) => {
 			return state.trackerData
 		},
 		getItemByName: (state, getters) => (id) => {
