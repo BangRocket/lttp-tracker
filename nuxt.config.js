@@ -30,6 +30,13 @@ export default {
   plugins: [
   ],
   /*
+  ** Nuxt.js serverMiddleware
+  */
+  serverMiddleware: [
+    // The entrypoint into your Express app.
+    '~/api/server.js'
+  ],
+  /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
