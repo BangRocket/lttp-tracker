@@ -5,13 +5,19 @@
       :style="{}"
     >
       <div
-        v-for="(itemRow, itemRowIndex) in itemRows"
+        v-for="(itemRow, itemRowIndex) in records.itemRows"
         :key="itemRowIndex"
       >
         <!-- <div
           :style="{ width: (maxRowLength - itemRow.length) * 32 + 'px', display:'inline-block' }"
           class="rowSpacer"
         ></div> -->
+        <!-- <p
+          v-for="(item, itemColumnIndex) in itemRow"
+          :key="(item === 'blank' ? item + itemColumnIndex : item)"
+        >
+          {{ item }} - {{ (item === 'blank' ? item + itemColumnIndex : item) }} - {{ itemFor(item) }} - {{ itemColumnIndex }} - {{ itemRowIndex }}
+        </p> -->
         <ItemCell
           v-for="(item, itemColumnIndex) in itemRow"
           :key="(item === 'blank' ? item + itemColumnIndex : item)"
@@ -54,13 +60,16 @@ import ItemCell from './ItemCell.vue'
 export default {
   name: 'ItemTable',
   components: { ItemCell },
+  props: {
+  },
   data () {
     return {
-      // records: store.state,
       itemData: this.getItemData()
     }
   },
   computed: {
+    records () { return this.$store.state },
+    trackerData () { return this.$store.state.trackerData },
     maxRowLength () {
       return !this.itemRows.reduce
         ? 0
@@ -75,20 +84,21 @@ export default {
   },
   methods: {
     itemFor (itemName) {
-      if (!this.trackerData || !this.trackerData.items) {
+      if (!this.$store.state.trackerData || !this.$store.state.trackerData.items) {
         return null
       }
       // console.log(this.itemData)
       // console.log(this.trackerData.items[itemName])
-      return this.trackerData.items[itemName]
+      return this.$store.state.trackerData.items[itemName]
     },
     getItemData () {
+      console.log(this.$store.state.trackerData)
       // const check = await db.room.child('items').once('value')
       // // console.log(check.val())
       // if (!(check.val() === null)) {
       //   return check.val()
       // }
-      return this.trackerData.items
+      return this.$store.state.trackerData.items
     },
     addRow (e) {
       this.itemRows.push(['blank'])
@@ -102,7 +112,7 @@ export default {
         this.itemRows.splice(rowIndex, 1)
       }
     },
-    ...mapState(['trackerData', 'settings', 'itemRows', 'isRoomLoaded'])
+    ...mapState(['settings', 'isRoomLoaded'])
   }
 }
 </script>

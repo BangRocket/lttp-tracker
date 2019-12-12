@@ -705,10 +705,7 @@ export const Locations = {
                 }
               }
             }
-            if (
-              Logic.canLiftRocks() &&
-              (this.trackerData.items.hookshot || this.trackerData.items.boots)
-            ) {
+            if (Logic.canLiftRocks() && (this.trackerData.items.hookshot || this.trackerData.items.boots)) {
               if (Logic.canEnterDarkWorldDeathMountain('inverted', false)) {
                 availability.inverted = 'available'
               } else if (Logic.canEnterDarkWorldDeathMountain('inverted', true)) {
@@ -1237,10 +1234,7 @@ export const Locations = {
                 availability.owGlitches = 'glitchagahnim'
               }
             }
-            if (
-              Logic.glitchedLinkInDarkWorld() &&
-              (Logic.canLiftRocks() || this.trackerData.items.boots)
-            ) {
+            if (Logic.glitchedLinkInDarkWorld() && (Logic.canLiftRocks() || this.trackerData.items.boots)) {
               if (Logic.canEnterNorthEastDarkWorld('majorGlitches', false, false)) {
                 availability.majorGlitches = 'available'
               } else if (Logic.canEnterNorthEastDarkWorld('majorGlitches', true, false)) {
@@ -1948,36 +1942,36 @@ export const Locations = {
             } else if (this.trackerData.items.flippers && this.trackerData.items.mirror) {
               if (
                 (this.trackerData.items.moonpearl &&
-                    Logic.canEnterSouthDarkWorld('owGlitches', false, false)) ||
-                  Logic.canEnterNorthEastDarkWorld('owGlitches', false, false)
+                  Logic.canEnterSouthDarkWorld('owGlitches', false, false)) ||
+                Logic.canEnterNorthEastDarkWorld('owGlitches', false, false)
               ) {
                 availability.owGlitches = 'available'
               } else if (
                 (this.trackerData.items.moonpearl &&
-                    Logic.canEnterSouthDarkWorld('owGlitches', true, false)) ||
-                  Logic.canEnterNorthEastDarkWorld('owGlitches', true, false)
+                  Logic.canEnterSouthDarkWorld('owGlitches', true, false)) ||
+                Logic.canEnterNorthEastDarkWorld('owGlitches', true, false)
               ) {
                 availability.owGlitches = 'agahnim'
               } else if (
                 (this.trackerData.items.moonpearl &&
-                    Logic.canEnterSouthDarkWorld('owGlitches', true, true)) ||
-                  Logic.canEnterNorthEastDarkWorld('owGlitches', true, true)
+                  Logic.canEnterSouthDarkWorld('owGlitches', true, true)) ||
+                Logic.canEnterNorthEastDarkWorld('owGlitches', true, true)
               ) {
                 availability.owGlitches = 'glitchagahnim'
               }
               if (
                 Logic.glitchedLinkInDarkWorld() ||
-                  Logic.canEnterNorthEastDarkWorld('majorGlitches', false, false)
+                Logic.canEnterNorthEastDarkWorld('majorGlitches', false, false)
               ) {
                 availability.majorGlitches = 'available'
               } else if (
                 Logic.glitchedLinkInDarkWorld() ||
-                  Logic.canEnterNorthEastDarkWorld('majorGlitches', true, false)
+                Logic.canEnterNorthEastDarkWorld('majorGlitches', true, false)
               ) {
                 availability.majorGlitches = 'agahnim'
               } else if (
                 Logic.glitchedLinkInDarkWorld() ||
-                  Logic.canEnterNorthEastDarkWorld('majorGlitches', true, true)
+                Logic.canEnterNorthEastDarkWorld('majorGlitches', true, true)
               ) {
                 availability.majorGlitches = 'glitchagahnim'
               }
@@ -2030,8 +2024,7 @@ export const Locations = {
             if (Logic.canEnterNorthWestDarkWorld('owGlitches', false, false)) {
               if (
                 this.trackerData.items.moonpearl &&
-                (this.trackerData.items.boots ||
-                  (Logic.canLiftRocks() && this.trackerData.items.cape))
+                (this.trackerData.items.boots || (Logic.canLiftRocks() && this.trackerData.items.cape))
               ) {
                 availability.owGlitches = 'available'
               } else {
@@ -2050,8 +2043,7 @@ export const Locations = {
             if (Logic.canEnterNorthWestDarkWorld('majorGlitches', false, false)) {
               if (
                 Logic.glitchedLinkInDarkWorld() &&
-                (this.trackerData.items.boots ||
-                  (Logic.canLiftRocks() && this.trackerData.items.cape))
+                (this.trackerData.items.boots || (Logic.canLiftRocks() && this.trackerData.items.cape))
               ) {
                 availability.majorGlitches = 'available'
               } else {
@@ -2861,8 +2853,8 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.boots &&
-                  (this.trackerData.dungeonthis.chests[1] === 2 ||
-                    (this.canHurtBoss() && Logic.canLightTorches() && Logic.canLiftRocks()))
+                (this.trackerData.dungeonthis.chests[1] === 2 ||
+                  (this.canHurtBoss() && Logic.canLightTorches() && Logic.canLiftRocks()))
               ) {
                 availability.inverted = 'glitchavailable'
               } else {
@@ -2952,13 +2944,19 @@ export const Locations = {
                 }
               }
               if (this.canEnter('majorGlitches', false, false)) {
-                if (Logic.canLightTorches() || this.dungeons[8].canEnter('majorGlitches', false, false)) {
+                if (
+                  Logic.canLightTorches() ||
+                  this.dungeons[8].canEnter('majorGlitches', false, false)
+                ) {
                   availability.majorGlitches = 'available'
                 } else {
                   availability.majorGlitches = 'possible'
                 }
               } else if (this.canEnter('majorGlitches', false, true)) {
-                if (Logic.canLightTorches() || this.dungeons[8].canEnter('majorGlitches', false, true)) {
+                if (
+                  Logic.canLightTorches() ||
+                  this.dungeons[8].canEnter('majorGlitches', false, true)
+                ) {
                   availability.majorGlitches = 'glitchavailable'
                 } else {
                   availability.majorGlitches = 'glitchpossible'
@@ -3348,22 +3346,26 @@ export const Locations = {
             ) {
               if (
                 this.canEnter('majorGlitches', false, false) &&
-                (this.trackerData.items.hammer || this.dungeons[8].canEnter('majorGlitches', false, false))
+                (this.trackerData.items.hammer ||
+                  this.dungeons[8].canEnter('majorGlitches', false, false))
               ) {
                 availability.majorGlitches = 'available'
               } else if (
                 this.canEnter('majorGlitches', false, true) &&
-                (this.trackerData.items.hammer || this.dungeons[8].canEnter('majorGlitches', false, true))
+                (this.trackerData.items.hammer ||
+                  this.dungeons[8].canEnter('majorGlitches', false, true))
               ) {
                 availability.majorGlitches = 'glitchavailable'
               } else if (
                 this.canEnter('majorGlitches', true, false) &&
-                (this.trackerData.items.hammer || this.dungeons[8].canEnter('majorGlitches', true, false))
+                (this.trackerData.items.hammer ||
+                  this.dungeons[8].canEnter('majorGlitches', true, false))
               ) {
                 availability.majorGlitches = 'agahnim'
               } else if (
                 this.canEnter('majorGlitches', true, true) &&
-                (this.trackerData.items.hammer || this.dungeons[8].canEnter('majorGlitches', true, true))
+                (this.trackerData.items.hammer ||
+                  this.dungeons[8].canEnter('majorGlitches', true, true))
               ) {
                 availability.majorGlitches = 'glitchedagahnim'
               }
@@ -3415,7 +3417,8 @@ export const Locations = {
             if (this.canEnter('majorGlitches', false, false)) {
               if (
                 this.trackerData.items.flippers &&
-                (this.trackerData.items.hammer || this.dungeons[8].canEnter('majorGlitches', false, false))
+                (this.trackerData.items.hammer ||
+                  this.dungeons[8].canEnter('majorGlitches', false, false))
               ) {
                 if (this.trackerData.items.hookshot) {
                   availability.majorGlitches = 'available'
@@ -3428,7 +3431,8 @@ export const Locations = {
             } else if (this.canEnter('majorGlitches', false, true)) {
               if (
                 this.trackerData.items.flippers &&
-                (this.trackerData.items.hammer || this.dungeons[8].canEnter('majorGlitches', false, false))
+                (this.trackerData.items.hammer ||
+                  this.dungeons[8].canEnter('majorGlitches', false, false))
               ) {
                 if (this.trackerData.items.hookshot) {
                   availability.majorGlitches = 'glitchavailable'
@@ -4103,10 +4107,7 @@ export const Locations = {
                 } else {
                   availability.majorGlitches = 'possible'
                 }
-              } else if (
-                this.mayEnter('majorGlitches', false, false) &&
-                this.trackerData.items.lantern
-              ) {
+              } else if (this.mayEnter('majorGlitches', false, false) && this.trackerData.items.lantern) {
                 availability.majorGlitches = 'possible'
               } else if (this.canEnter('majorGlitches', false, true)) {
                 if (
@@ -4133,7 +4134,7 @@ export const Locations = {
                   }
                 } else if (
                   Logic.canLightTorches() &&
-                    (this.trackerData.items.byrna || this.trackerData.items.cape)
+                  (this.trackerData.items.byrna || this.trackerData.items.cape)
                 ) {
                   availability.inverted = 'glitchavailable'
                 } else {
@@ -4677,9 +4678,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.glitchless = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4703,9 +4702,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.glitchless = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4754,9 +4751,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.owGlitches = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4780,9 +4775,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.owGlitches = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4830,9 +4823,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.majorGlitches = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4856,9 +4847,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.majorGlitches = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4906,9 +4895,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.inverted = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {
@@ -4932,9 +4919,7 @@ export const Locations = {
                 }
               } else if (
                 this.trackerData.items.lantern &&
-                  (this.trackerData.items.cape ||
-                    this.trackerData.items.byrna ||
-                    Logic.canBlockLasers())
+                (this.trackerData.items.cape || this.trackerData.items.byrna || Logic.canBlockLasers())
               ) {
                 availability.inverted = 'possible'
               } else if (this.trackerData.dungeonthis.chests[9] >= 4) {

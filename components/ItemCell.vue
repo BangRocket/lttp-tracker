@@ -2,6 +2,7 @@
   <div
     :style="{ height: '64px', width: '64px', display:'inline-block', backgroundImage: backgroundImage, position: 'relative' }"
     :class="isActive ? 'true' : 'false'"
+    class="glove"
     @click.stop="clickCellForward"
     @contextmenu.prevent.stop="clickCellBack"
   >
@@ -73,9 +74,9 @@ export default {
   ],
   data () {
     return {
-      value: this.itemValue || '',
-      name: this.itemName || '',
-      boss: this.bossNum || 0,
+      value: this.itemValue,
+      name: this.itemName,
+      boss: this.bossNum,
       prize: 0,
       medallion: 0,
       chest: 1,
@@ -84,12 +85,13 @@ export default {
   },
   computed: {
     bossNum () {
-      // console.log(this.name, this.name.indexOf('boss'), this.name.substring(4))
-      // eslint-disable-next-line unicorn/prefer-includes
-      if (this.name.indexOf('boss') === -1) {
-        return null
-      }
-      return this.name.substring(4)
+      console.log(this.name)
+      return null
+      // // eslint-disable-next-line unicorn/prefer-includes
+      // if (this.name.indexOf('boss') === -1) {
+      //   return null
+      // }
+      // return this.name.substring(4)
     },
     chestNum () {
       return ''
@@ -113,19 +115,37 @@ export default {
     backgroundImage () {
       // TODO: move bosses into separate folder
       if (this.name === 'blank') {
-        return this.settings.editmode ? 'url(./assets/items/blank.png)' : 'none'
+        return this.settings.editmode ? 'url(~/assets/items/blank.png)' : 'none'
       } else if (typeof this.value === 'boolean') {
-        return 'url(./assets/items/' + this.name + '.png)'
+        return 'url(~/assets/items/' + this.name + '.png)'
       } else if (this.textCounter !== null) {
-        return 'url(./assets/items/' + this.name + '.png)'
+        return 'url(~/assets/items/' + this.name + '.png)'
       }
       return (
-        'url(./assets/items/' +
+        'url(~/assets/items/' +
         this.name +
         (this.settings.editmode
           ? itemsMax[this.name]
           : this.value || '0') +
         '.png)'
+      )
+    },
+    backgroundImageTag () {
+      // TODO: move bosses into separate folder
+      if (this.name === 'blank') {
+        return this.settings.editmode ? '~/assets/items/blank.png' : 'none'
+      } else if (typeof this.value === 'boolean') {
+        return '~/assets/items/' + this.name + '.png'
+      } else if (this.textCounter !== null) {
+        return '~/assets/items/' + this.name + '.png'
+      }
+      return (
+        '~/assets/items/' +
+        this.name +
+        (this.settings.editmode
+          ? itemsMax[this.name]
+          : this.value || '0') +
+        '.png'
       )
     },
     isActive () {
@@ -149,9 +169,9 @@ export default {
         this.trackerData.bigkeys
       ) {
         if (this.trackerData.bigkeys[this.bossNum]) {
-          return 'url(./assets/items/bigkey.png)'
+          return 'url(~/assets/items/bigkey.png)'
         } else {
-          return 'url(./assets/items/nothing.png)'
+          return 'url(~/assets/items/nothing.png)'
         }
       }
       return null
@@ -165,12 +185,12 @@ export default {
       ) {
         if (this.trackerData.smallkeys[this.bossNum] > 0) {
           return (
-            'url(./assets/items/smallkey' +
+            'url(../../assets/items/smallkey' +
             this.trackerData.smallkeys[this.bossNum] +
             '.png)'
           )
         } else {
-          return 'url(./assets/items/nothing.png)'
+          return 'url(../../assets/items/nothing.png)'
         }
       }
       return null
@@ -209,7 +229,6 @@ export default {
     }
   },
   created () {
-    console.log(this.itemRows)
   },
   methods: {
     type () {

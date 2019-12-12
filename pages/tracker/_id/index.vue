@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="test()">
+    <button @click="tests()">
       Test
     </button>
     <div
@@ -81,7 +81,7 @@ export default {
     this.isRoomLoaded = true // hasData
   },
   methods: {
-    test () {
+    tests () {
       console.log(this)
       console.log(this.settings.mapLogic)
       console.log(this.trackerData)
@@ -115,13 +115,13 @@ export default {
     showTracker () {
       this.showMap = !this.showMap
     },
-    ...mapState(['isRoomLoaded', 'trackerData', 'settings'])
+    ...mapState(['trackerData', 'isRoomLoaded', 'settings'])
   }
   // middleware: ['auth']
 }
 </script>
 
-<style scoped>
+<style>
 body {
   background-color: rgb(0, 0, 0);
   margin: 0;
