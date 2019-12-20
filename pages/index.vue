@@ -1,19 +1,16 @@
 <template>
   <span>
-    <nuxt-link
-      to="login"
-    >
-      Login
-    </nuxt-link>
-    <NuxtChild :key="$route" />
+    <WorldMap></WorldMap>
   </span>
 </template>
 
 <script>
+import WorldMap from '../components/WorldMap.vue'
 
 export default {
   name: 'LandingPage',
   components: {
+    WorldMap
   },
   props: {
   },
