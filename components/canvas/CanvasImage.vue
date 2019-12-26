@@ -1,39 +1,53 @@
 <script>
-// Note how there's no template or styles in this component.
-
-// Helper functions to convert a percentage of canvas area to pixels.
-// const percentWidthToPix = (percent, ctx) => Math.floor((ctx.canvas.width / 100) * percent)
-// const percentHeightToPix = (percent, ctx) => Math.floor((ctx.canvas.height / 100) * percent)
-
 export default {
   // Gets us the provider property from the parent <my-canvas> component.
-  inject: ['provider'],
+  inject: ['provider', 'canvas'],
 
   props: {
-    // Start coordinates (percentage of canvas dimensions).
-    x1: {
-      type: Number,
-      default: 0
-    },
-    y1: {
-      type: Number,
-      default: 0
-    },
-
-    // End coordinates (percentage of canvas dimensions).
-    x2: {
-      type: Number,
-      default: 0
-    },
-    y2: {
-      type: Number,
-      default: 0
-    },
-
     // image to render
     image: {
       type: String,
-      default: ''
+      default: 'map/poi.png'
+    },
+
+    // Start coordinates (x and y of top left of source image).
+    dx: {
+      type: Number,
+      default: 0
+    },
+    dy: {
+      type: Number,
+      default: 0
+    },
+
+    // width and height to draw image (scaling in px)
+    dWidth: {
+      type: Number,
+      default: 600
+    },
+    dHeight: {
+      type: Number,
+      default: 600
+    },
+
+    // Start coordinates of sub-rectangle (x and y of based on source image or sWidth/sHeight).
+    sx: {
+      type: Number,
+      default: 0
+    },
+    sy: {
+      type: Number,
+      default: 0
+    },
+
+    // size of sub-rectangle image
+    sWidth: {
+      type: Number,
+      default: 0
+    },
+    sHeight: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -49,25 +63,32 @@ export default {
   },
 
   methods: {
-    mapLoc () {
-      return require('../../assets/map/WorldMap-LightWorld.png')
+    getImage () {
+      if (!this.image) {
+        return
+      }
+
+      // TODO: this is something I need to do
+      // const fileName = this.selectedDog.toLowerCase()
+
+      return require(`../../assets/${this.image}`)
     },
     canvasImage () {
       if (!this.provider.context) { return }
       const ctx = this.provider.context
 
-      // eslint-disable-next-line prefer-const
-      let img = new Image()
-      img.src = this.mapLoc()
+      const img = new Image()
+      img.src = this.getImage()
+      this.canvas.height = '810px'
+      this.canvas.width = '810px'
       img.onload = function () {
-        ctx.drawImage(img, 0, 0)
+        ctx.drawImage(img, 0, 0, 800, 800)
       }
     }
   },
 
-  // eslint-disable-next-line vue/require-render-return
   render () {
-    this.canvasImage()
+    return this.canvasImage()
   }
 }
 </script>
