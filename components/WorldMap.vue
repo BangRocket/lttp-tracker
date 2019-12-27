@@ -1,20 +1,20 @@
 <template>
   <span>
-    <CanvasContainer :border="true">
-      <CanvasImage></CanvasImage>
-    </CanvasContainer>
+    <Container :border="true">
+      <Graphic></Graphic>
+    </Container>
   </span>
 </template>
 
 <script>
-import CanvasContainer from '../components/canvas/CanvasContainer.vue'
-import CanvasImage from '../components/canvas/CanvasImage.vue'
+import Container from '../components/canvas/Container.vue'
+import Graphic from '../components/canvas/Graphic.vue'
 
 export default {
   name: 'WorldMap',
   components: {
-    CanvasContainer,
-    CanvasImage
+    Container,
+    Graphic
   },
   props: {
     id: {
