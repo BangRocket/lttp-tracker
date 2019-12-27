@@ -1,21 +1,22 @@
 <template>
   <span>
-    <LightWorldMap></LightWorldMap>
+    <Container :height="800" :width="800" :border="true" :layers="2">
+    </Container>
   </span>
 </template>
 
 <script>
-import LightWorldMap from '../components/LightWorldMap.vue'
+import Container from '../components/canvas/Container.vue'
 
 export default {
-  name: 'WorldMap',
+  name: 'LightWorldMap',
   components: {
-    LightWorldMap
+    Container
   },
   props: {
     id: {
       type: [String],
-      default: 'worldmap'
+      default: 'lightworldmap'
     }
   },
   data () {

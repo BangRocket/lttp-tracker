@@ -7,7 +7,7 @@ export default {
     // image to render
     image: {
       type: String,
-      default: 'map/poi.png'
+      default: 'map/highlighted.png'
     },
 
     // Start coordinates (x and y of top left of source image).
@@ -79,10 +79,8 @@ export default {
 
       const img = new Image()
       img.src = this.getImage()
-      this.canvas.height = '810px'
-      this.canvas.width = '810px'
       img.onload = function () {
-        ctx.drawImage(img, 0, 0, 800, 800)
+        ctx.drawImage(img, 100, 100, this.naturalHeight, this.naturalWidth)
       }
     }
   },
