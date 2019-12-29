@@ -1,16 +1,24 @@
 <template>
   <span>
-    <LightWorldMap></LightWorldMap>
+    <LightWorldMap
+      :height="800"
+      :width="800"
+      :border="true"
+    >
+      <Graphic v-for="(point, index) in poi" :key="'g-'+index" :target="'poi'"></Graphic>
+    </LightWorldMap>
   </span>
 </template>
 
 <script>
 import LightWorldMap from '../components/LightWorldMap.vue'
+import Graphic from '../components/canvas/Graphic.vue'
 
 export default {
   name: 'WorldMap',
   components: {
-    LightWorldMap
+    LightWorldMap,
+    Graphic
   },
   props: {
     id: {
@@ -20,7 +28,12 @@ export default {
   },
   data () {
     return {
-
+      poi: {
+        type: Array,
+        default () {
+          return []
+        }
+      }
     }
   },
   computed: {

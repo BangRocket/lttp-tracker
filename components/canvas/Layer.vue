@@ -13,7 +13,11 @@ export default {
   props: {
     id: {
       type: Number,
-      default: 1
+      default: 0
+    },
+    name: {
+      type: String,
+      default: 'default'
     },
     // size of layer, usually set by container
     height: {
@@ -67,7 +71,7 @@ export default {
     const ctx = this.canvas.getContext('2d')
     ctx.font = '30px Arial'
     ctx.fillStyle = 'yellow'
-    ctx.fillText(`${this.layername}`, 10, ((50 * this.id) + 50))
+    ctx.fillText(`${this.name}`, 10, ((50 * this.id) + 50))
   },
 
   methods: {
@@ -77,10 +81,6 @@ export default {
 </script>
 
 <style scoped>
-.showborder {
-  border: 5px solid red;
-}
-
 canvas {
   background-color: transparent;
 }

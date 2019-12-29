@@ -7,10 +7,14 @@ const percentHeightToPix = (percent, ctx) => Math.floor((ctx.canvas.height / 100
 
 export default {
   // Gets us the provider property from the parent <my-canvas> component.
-  inject: ['provider'],
+  inject: ['layers'],
 
   props: {
     // Start coordinates (percentage of canvas dimensions).
+    target: {
+      type: String,
+      default: 'bg'
+    },
     x1: {
       type: Number,
       default: 0
@@ -33,7 +37,7 @@ export default {
     // The value to display.
     value: {
       type: Number,
-      defualt: 0
+      default: 0
     },
 
     // The color of the box.
@@ -78,32 +82,32 @@ export default {
 
   // eslint-disable-next-line vue/require-render-return
   render () {
-    // Since the parent canvas has to mount first, it's *possible* that the context may not be
-    // injected by the time this render function runs the first time.
-    if (!this.provider.context) { return }
-    const ctx = this.provider.context
+    // // Since the parent canvas has to mount first, it's *possible* that the context may not be
+    // // injected by the time this render function runs the first time.
+    // if (!this.provider.context) { return }
+    // const ctx = this.provider.context
 
-    // Keep a reference to the box used in the previous render call.
-    const oldBox = this.oldBox
-    // Calculate the new box. (Computed properties update on-demand.)
-    const newBox = this.calculatedBox
+    // // Keep a reference to the box used in the previous render call.
+    // const oldBox = this.oldBox
+    // // Calculate the new box. (Computed properties update on-demand.)
+    // const newBox = this.calculatedBox
 
-    ctx.beginPath()
-    // Clear the old area from the previous render.
-    ctx.clearRect(oldBox.x, oldBox.y, oldBox.w, oldBox.h)
-    // Clear the area for the text.
-    ctx.clearRect(newBox.x, newBox.y - 42, newBox.w, 100)
+    // ctx.beginPath()
+    // // Clear the old area from the previous render.
+    // ctx.clearRect(oldBox.x, oldBox.y, oldBox.w, oldBox.h)
+    // // Clear the area for the text.
+    // ctx.clearRect(newBox.x, newBox.y - 42, newBox.w, 100)
 
-    // Draw the new rectangle.
-    ctx.rect(newBox.x, newBox.y, newBox.w, newBox.h)
-    ctx.fillStyle = this.color
-    ctx.fill()
+    // // Draw the new rectangle.
+    // ctx.rect(newBox.x, newBox.y, newBox.w, newBox.h)
+    // ctx.fillStyle = this.color
+    // ctx.fill()
 
-    // Draw the text
-    ctx.fillStyle = '#000'
-    ctx.font = '28px sans-serif'
-    ctx.textAlign = 'center'
-    ctx.fillText(Math.floor(this.value), (newBox.x + (newBox.w / 2)), newBox.y - 14)
+    // // Draw the text
+    // ctx.fillStyle = '#000'
+    // ctx.font = '28px sans-serif'
+    // ctx.textAlign = 'center'
+    // ctx.fillText(Math.floor(this.value), (newBox.x + (newBox.w / 2)), newBox.y - 14)
   }
 }
 </script>

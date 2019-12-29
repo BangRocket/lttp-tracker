@@ -1,7 +1,13 @@
 <template>
   <div class="viewport" :style="canvas" :class="{showborder: border}">
-    <Layer v-for="(n, index) in layers" :ref="'canvas'+index":id="index" :key="index" :height="height" :width="width">
-      <Graphic></Graphic>
+    <Layer
+      v-for="(n, index) in layerCount"
+      :id="index"
+      :ref="'canvas'+index"
+      :key="index"
+      :height="height"
+      :width="width"
+    >
     </Layer>
     <slot></slot>
   </div>
@@ -9,19 +15,17 @@
 
 <script>
 import Layer from '~/components/canvas/Layer.vue'
-import Graphic from '~/components/canvas/Graphic.vue'
 
 export default {
   components: {
-    Layer,
-    Graphic
+    Layer
   },
   props: {
     border: {
       type: Boolean,
       default: false
     },
-    layers: {
+    layerCount: {
       type: [Number, Object],
       default: 2
     },
@@ -42,7 +46,8 @@ export default {
         // initial size of canvas/container
         height: this.height + 'px',
         width: this.width + 'px'
-      }
+      },
+      layers: []
     }
   },
 
@@ -57,7 +62,11 @@ export default {
   },
 
   mounted () {
-    console.log('container', this)
+    for (const canvas in this.$refs) {
+      console.log('this:', this)
+      this.layers.push(this.$refs[canvas][0].$refs[canvas].getContext('2d'))
+    }
+    // console.log(this.layers)
   },
 
   methods: {

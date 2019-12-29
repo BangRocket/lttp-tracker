@@ -1,9 +1,15 @@
 <script>
+// import { mapState } from 'vuex'
+
 export default {
   // Gets us the provider property from the parent <my-canvas> component.
-  inject: ['provider', 'canvas'],
+  inject: ['layers'],
 
   props: {
+    target: {
+      type: String,
+      default: 'bg'
+    },
     // image to render
     image: {
       type: String,
@@ -56,7 +62,7 @@ export default {
     }
   },
   computed: {
-
+    // ...mapState(['canvas'])
   },
   mounted () {
 
@@ -74,14 +80,14 @@ export default {
       return require(`../../assets/${this.image}`)
     },
     canvasImage () {
-      if (!this.provider.context) { return }
-      const ctx = this.provider.context
+    //   if (!this.provider.context) { return }
+    //   const ctx = this.provider.context
 
-      const img = new Image()
-      img.src = this.getImage()
-      img.onload = function () {
-        ctx.drawImage(img, 100, 100, this.naturalHeight, this.naturalWidth)
-      }
+    //   const img = new Image()
+    //   img.src = this.getImage()
+    //   img.onload = function () {
+    //     ctx.drawImage(img, 100, 100, this.naturalHeight, this.naturalWidth)
+    //   }
     }
   },
 
